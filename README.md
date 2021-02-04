@@ -1,2 +1,2 @@
-# EIA2-Endabgabe
-Final exam EIA2 course
+# EIA2
+Course Repository for EIA2
