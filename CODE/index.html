@@ -1,13 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
-    <title>Canvas</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='canvas.js' type="text/javascript" charset="utf-8"></script>
+    <title>Canvas</title>
+    <script src="main.js"></script>
+    <script src="data.js"></script>
+    <script src="GUI.js"></script>
+
 </head>
+
 <body>
     <canvas id="canvas"></canvas>
+
+    <div id="GUI">
+
+        <form id="userInterface">
+
+            <fieldset>
+                <div class="controls" id="save-row">
+
+                    <select>
+                        <option value="Default">Default</option>
+                        <option value="Anti Gravity">Anti Gravity</option>
+                        <option value="Battle Field">Battle Field</option>
+                        <option value="Mega Blast">Mega Blast</option>
+                        <option value="Nimble">Nimble</option>
+                        <option value="Slow Launch">Slow Launch</option>
+                        <option value="Perma Trail">Perma Trail</option>
+                    </select>
+
+                    <button id="save" type="button">Save</button>
+                    <button id="new" type="button">New</button>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="controls" id="startColor">
+                    <input type="color" id="startColor" name="startColor" value="#e66465">
+                    <label for="startColor">First color</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="controls" id="endColor">
+                    <input type="color" id="endColor" name="head" value="#e66465">
+                    <label for="startColor">Second color</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="controls" id="particleAmount">
+                    <input type="range" name="Duration" id="duration" min="1" max="3" step="1" value="1">
+                    <label for="particleAmount">Particle amount</label>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="controls" id="particleSize">
+                    <input type="range" name="Duration" id="duration" min="1" max="3" step="1" value="1">
+                    <label for="particleAmount">Particle size</label>
+                </div>
+            </fieldset>  <!--lifetime of rockets includes speed-->
+
+            <fieldset>
+                <div id="hierachy">
+                    <legend>Explosions</legend>
+                    <input type="radio" name="ExplosionTimes" class="hierachy" value="2" checked />
+                    <label for="one">1</label>
+                    <input type="radio" name="ExplosionTimes" class="hierachy" value="3" />
+                    <label for="two">2</label>
+                    <input type="radio" name="ExplosionTimes" class="hierachy" value="4" />
+                    <label for="three">3</label>
+                    <input type="radio" name="ExplosionTimes" class="hierachy" value="4" />
+                    <label for="three">3</label>
+                </div>
+            </fieldset>
+
+        </form>
+    </div>
+
 </body>
+
 </html>
