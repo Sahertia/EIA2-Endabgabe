@@ -1,5 +1,5 @@
 /*
-namespace Firework_Canvas {
+namespace Rocket_Jam {
         export class RocketWithPhysics {
             public xPosition: number;
             public yPosition: number;
@@ -42,6 +42,8 @@ namespace Firework_Canvas {
                 this.hierarchy = _hierachy;
                 this.radius = _radius;
             }
+
+            
             
             // Calculate the new values for the next update frame thingy
             public copyPosition(_target: RocketWithPhysics): void {
@@ -83,5 +85,6 @@ namespace Firework_Canvas {
             }
         }
    }
+   
 }
 */
