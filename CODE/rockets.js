@@ -26,11 +26,20 @@ var Rocket_Jam;
             this.yVelocity = _target.yVelocity;
         }
         //     // Calculate the new values for the next update frame thingy
-        calculateNewValue(timeElapsed, canvasWidth, canvasHeigth) {
+        calculateNewValue(timeElapsed, canvasWidth, canvasHeight) {
             // this.xVelocity = this.xVelocity; // x velocity should stay the same
             this.yVelocity = this.yVelocity + (this.yGravity * timeElapsed / 1000); // gravity dampens the y velocity over time
+            /*
+            if((this.yPosition < 0 && this.yVelocity < 0) || (this.yPosition > canvasHeight || this.yVelocity > 0)) {
+                this.yVelocity = this.yVelocity * -0.9;
+            }
+
+            if((this.xPosition < 0 && this.xVelocity < 0) || (this.xPosition > canvasWidth || this.xVelocity > 0)) {
+                this.xVelocity = this.xVelocity * -0.9;
+            }
+            */
+            this.yPosition = Math.min(Math.max(this.yPosition + this.yVelocity, 0), canvasHeight);
             this.xPosition = Math.min(Math.max(this.xPosition + this.xVelocity, 0), canvasWidth);
-            this.yPosition = Math.min(Math.max(this.yPosition + this.yVelocity, 0), canvasHeigth);
             // colorLerp();
             if (this.lifetime < 0) {
                 this.shouldBeDestroyed = true;
@@ -38,6 +47,7 @@ var Rocket_Jam;
             else {
                 this.lifetime = this.lifetime - (timeElapsed / 10000);
             }
+            // console.log(this.xVelocity + " | " + this.yVelocity);
             /*else {
                 console.log(this.lifetime);
             }*/

@@ -7,7 +7,7 @@
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <title>Canvas</title>
     <script src="main.js"></script>
-    <script src="data.js"></script>
+    <script src="rockets.js"></script>
     <script src="GUI.js"></script>
 
 </head>
@@ -21,16 +21,21 @@
 
             <fieldset>
                 <div class="controls" id="save-row">
+                    <select id="presetSelector">
+                    </select>
 
+                    <!--
                     <select>
                         <option value="Default">Default</option>
-                        <option value="Anti Gravity">Anti Gravity</option>
-                        <option value="Battle Field">Battle Field</option>
-                        <option value="Mega Blast">Mega Blast</option>
-                        <option value="Nimble">Nimble</option>
-                        <option value="Slow Launch">Slow Launch</option>
-                        <option value="Perma Trail">Perma Trail</option>
+                        <option value="Preset1">Preset 1</option>
+                        <option value="Preset2">Preset 2</option>
+                        <option value="Preset3">Preset 3</option>
+                        <option value="Preset4">Preset 4</option>
+                        <option value="Preset5">Preset 5</option>
+                        <option value="Preset6">Preset 6</option>
                     </select>
+
+                    -->
 
                     <button id="save" type="button">Save</button>
                     <button id="new" type="button">New</button>
@@ -39,14 +44,14 @@
 
             <fieldset>
                 <div class="controls" id="startColor">
-                    <input type="color" id="startColor" name="startColor" value="#e66465">
+                    <input type="color" id="startColor" name="startColor" value="#90ee90">
                     <label for="startColor">First color</label>
                 </div>
             </fieldset>
 
             <fieldset>
                 <div class="controls" id="endColor">
-                    <input type="color" id="endColor" name="head" value="#e66465">
+                    <input type="color" id="endColor" name="endColor" value="#ffff00">
                     <label for="startColor">Second color</label>
                 </div>
             </fieldset>

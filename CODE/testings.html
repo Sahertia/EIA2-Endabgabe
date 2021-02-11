@@ -1,0 +1,14 @@
+dynamic typescript code
+
+let div: HTMLDivElement = document.createElement("div"); //new div an #shop1
+div.setAttribute("class", "artikel");
+document.body.appendChild(div);
+
+let img: HTMLImageElement = document.createElement("img"); //bild 
+img.setAttribute("src", pokemonartikel[i].image); //pokemonartikel war da ein Array eines Interfaces, weshalb ich hier nach name und image fragen konnte
+img.setAttribute("alt", pokemonartikel[i].name);
+div.appendChild(img);
+
+let name: HTMLParagraphElement = document.createElement("p"); //Artikelname
+name.setAttribute("class", "atikelname");
+div.appendChild(name).innerHTML = pokemonartikel[i].name;
