@@ -13,14 +13,22 @@ var Rocket_Jam;
     let updateTimer = 20;
     let xMouse;
     let yMouse;
-    let colorStart;
-    let colorEnd;
+    let colorStart = "#ffffff";
+    let colorEnd = "#ffffff";
     let gravity = 9.81 * 10;
     window.addEventListener("load", handleLoad);
+    // colorPickerStart.addEventListener("change", watchColorPicker, false);
+    // colorPickerEnd.addEventListener("change", watchColorPicker, false);
     // window.addEventListener("click", spawnSomeRockets);
+    // function watchColorPicker(_event: Event): void {
+    //     let target: HTMLInputElement = <HTMLInputElement>_event.target;
+    //     if (target.type == "color") {
+    //         target.value
+    //     }
+    // }
     function updateMouse(_event) {
         _event.preventDefault();
-        var rect = Rocket_Jam.ctx.canvas.getBoundingClientRect();
+        let rect = Rocket_Jam.ctx.canvas.getBoundingClientRect();
         xMouse = _event.clientX - rect.left;
         yMouse = _event.clientY - rect.top;
         console.log("X: " + xMouse);
@@ -147,6 +155,10 @@ var Rocket_Jam;
             return;
         }
         let newRocket;
+        let formData = new FormData(document.forms[0]);
+        // quantity = Number(formData.get("quantity"));
+        // lifetime = Number(formData.get("explosionSize"));
+        colorStart = String(formData.get("startColor"));
         let lifetime = rocketLifeTime; // stanadard  0.05 + 0.025
         let xPos = canvas.width / 2;
         let yPos = canvas.height; // TODO: check what canvas.height is
@@ -156,10 +168,13 @@ var Rocket_Jam;
         /*
         if()
         {
-
+ 
         }
         */
         let size = rocketSize;
+        // trying to set color
+        // colorStart = (document.getElementById("startColor") as HTMLInputElement).value;
+        // colorEnd = (document.getElementById("endColor") as HTMLInputElement).value;
         let formElement = document.querySelector("input#startColor");
         colorStart = "" + formElement.getAttribute("value");
         formElement = document.querySelector("input#endColor");
@@ -177,7 +192,9 @@ var Rocket_Jam;
         console.log("spawn");
         let lifetime = (Math.random() * rocketLifeTime / 8) + rocketLifeTime / 2; // TODO: get value for this from user input
         let colorStart = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
+        // let colorStart: string = (document.getElementById("startColor") as HTMLInputElement).value;
         let colorEnd = rocketOriginal.colorEnd;
+        //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
         let size = rocketParticles[index].size * 0.5; // TODO: get value from user input
         let radius = rocketParticles[index].radius * 0.8; // TODO: get value from user input
         let newRocket;
@@ -192,18 +209,12 @@ var Rocket_Jam;
     function GetFreeRocketSlot() {
         // console.log(rocketParticles.length);
         for (let i = 0; i < maxRockets; i++) {
-            if (rocketParticles[i] == null || rocketParticles[i].canBeOverwritten) // Rocket respawn problem here
-             {
+            if (rocketParticles[i] == null || rocketParticles[i].canBeOverwritten) { // Rocket respawn problem here
                 // console.log(i);
                 return i;
             }
         }
         return -1;
     }
-    // function displayDuration(_event: Event): void {
-    //     let progress: HTMLProgressElement = <HTMLProgressElement>document.querySelector("#durationSlider");
-    //     let duration: string = (<HTMLInputElement>_event.target).value;
-    //     progress.value = parseFloat(duration);
-    // }
 })(Rocket_Jam || (Rocket_Jam = {}));
 //# sourceMappingURL=main.js.map

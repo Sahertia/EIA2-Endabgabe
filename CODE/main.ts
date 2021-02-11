@@ -21,26 +21,64 @@ namespace Rocket_Jam {
 
     let colorStart: string;
     let colorEnd: string;
+    // let colorStartDefault: String = "#ffffff";
+    // let colorEndDefault: String = "#ffffff";
+
 
     let gravity: number = 9.81 * 10;
+
+    // let colorPickerStart: HTMLInputElement = <HTMLInputElement>document.getElementById("startColor");
+    // let pickerValue: string;
+    // let colorPickerEnd: HTMLInputElement = <HTMLInputElement>document.getElementById("endColor");
+
 
     export let ctx: CanvasRenderingContext2D;
 
     window.addEventListener("load", handleLoad);
-
-
+    // colorPickerStart.addEventListener("change", watchColorPicker, false);
+    // colorPickerEnd.addEventListener("change", watchColorPicker, false);
 
     // window.addEventListener("click", spawnSomeRockets);
 
+    // function watchColorPicker(_event: Event): void {
+    //     let target: HTMLInputElement = <HTMLInputElement>_event.target;
+
+    //     if (target.type == "color") {
+    //         target.value
+    //     }
+
+
+    // }
+
     function updateMouse(_event: MouseEvent): void {
         _event.preventDefault();
-        var rect: ClientRect = ctx.canvas.getBoundingClientRect();
+        let rect: ClientRect = ctx.canvas.getBoundingClientRect();
         xMouse = _event.clientX - rect.left;
         yMouse = _event.clientY - rect.top;
         console.log("X: " + xMouse);
         console.log("Y: " + yMouse);
         spawnSomeRockets();
     }
+
+    // function setColor(): void {
+    //     let colorStart: HTMLInputElement = <HTMLInputElement>document.querySelector("#startColor");
+    //     startColor.value = colorStartDefault:
+    //     startColor.addEventListener("input", updateFirst, false);
+    //     startColor.addEventListener("change", updateAll, false);
+    //     startColor.select();
+    // }
+
+    // function updateFirst(): void {
+    //     let startColor: HTMLInputElement | null = document.querySelector("#startColor");
+
+    //     if (startColor) {
+    //         startColor.value = this.target.value;
+    //     }
+
+
+
+
+
 
     function handleLoad(): void {
         canvas = document.querySelector("canvas");
@@ -62,6 +100,8 @@ namespace Rocket_Jam {
         setInterval(update, updateTimer, canvas);
 
         document?.querySelector("canvas")?.addEventListener("click", updateMouse);
+        document?.querySelector("canvas")?.addEventListener("click", setColor);
+
 
 
         // var theInput = document.getElementById("favcolor");
@@ -73,9 +113,14 @@ namespace Rocket_Jam {
 
         // let colorPicker = document.getElementById("")
 
-
-
     }
+
+
+
+
+
+
+
 
     // This big method is called every frame (hopefully). 
     // It checks which rockets needs to be rendered onto the canvas and which rockets are gone and produce sub-particles.
@@ -103,7 +148,7 @@ namespace Rocket_Jam {
                 console.log("pre-spawm");
 
                 if ((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
-                
+
 
                     for (let i: number = 0; i < rocketsPerCascade; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
@@ -166,6 +211,11 @@ namespace Rocket_Jam {
         }
     }
 
+
+
+
+
+
     // Is triggered on click, will try to create new rockets
     function spawnSomeRockets(): void {
         // On start, spawn 5 rockets randomly
@@ -175,6 +225,13 @@ namespace Rocket_Jam {
             // console.log(rocketParticles[i].xPosition);
         }
     }
+
+
+
+
+
+
+
 
     // Code to launch a new rocket
     function trySpawnRocketNew(): void {
@@ -191,6 +248,15 @@ namespace Rocket_Jam {
 
         let newRocket: RocketWithPhysics;
 
+        // let formData: FormData = new FormData(document.forms[0]);
+
+
+
+        // quantity = Number(formData.get("quantity"));
+        // lifetime = Number(formData.get("explosionSize"));
+        // colorStart = String(formData.get("startColor"));
+
+
         let lifetime: number = rocketLifeTime; // stanadard  0.05 + 0.025
 
         let xPos: number = canvas.width / 2;
@@ -205,10 +271,15 @@ namespace Rocket_Jam {
         /*
         if()
         {
-
+ 
         }
         */
         let size: number = rocketSize;
+
+        // trying to set color
+
+        // colorStart = (document.getElementById("startColor") as HTMLInputElement).value;
+        // colorEnd = (document.getElementById("endColor") as HTMLInputElement).value;
 
 
         let formElement: HTMLElement = <HTMLElement>document.querySelector("input#startColor");
@@ -224,6 +295,16 @@ namespace Rocket_Jam {
         rocketParticles[spawnIndex] = newRocket;
     }
 
+
+
+
+
+
+
+
+
+
+
     function trySpawnRocketParticle(rocketOriginal: RocketWithPhysics, index: number): void {
         let spawnIndex: number = GetFreeRocketSlot();
         if (spawnIndex == -1) {
@@ -234,7 +315,10 @@ namespace Rocket_Jam {
         let lifetime: number = (Math.random() * rocketLifeTime / 8) + rocketLifeTime / 2; // TODO: get value for this from user input
 
         let colorStart: string = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
+        // let colorStart: string = (document.getElementById("startColor") as HTMLInputElement).value;
         let colorEnd: string = rocketOriginal.colorEnd;
+        //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
+
 
         let size: number = rocketParticles[index].size * 0.5; // TODO: get value from user input
         let radius: number = rocketParticles[index].radius * 0.8; // TODO: get value from user input
@@ -253,23 +337,14 @@ namespace Rocket_Jam {
 
         // console.log(rocketParticles.length);
         for (let i: number = 0; i < maxRockets; i++) {
-            if (rocketParticles[i] == null || rocketParticles[i].canBeOverwritten) // Rocket respawn problem here
-            {
+            if (rocketParticles[i] == null || rocketParticles[i].canBeOverwritten) {// Rocket respawn problem here
+
                 // console.log(i);
                 return i;
             }
         }
 
-
         return -1;
 
     }
-
-    // function displayDuration(_event: Event): void {
-    //     let progress: HTMLProgressElement = <HTMLProgressElement>document.querySelector("#durationSlider");
-    //     let duration: string = (<HTMLInputElement>_event.target).value;
-    //     progress.value = parseFloat(duration);
-    // }
-
-
 }    
