@@ -1,5 +1,5 @@
 namespace Rocket_Jam {
-  
+
     let canvas: HTMLCanvasElement | null;
 
     let rocketParticles: RocketWithPhysics[] = []; // TODO
@@ -27,7 +27,7 @@ namespace Rocket_Jam {
     export let ctx: CanvasRenderingContext2D;
 
     window.addEventListener("load", handleLoad);
-    
+
 
 
     // window.addEventListener("click", spawnSomeRockets);
@@ -67,13 +67,13 @@ namespace Rocket_Jam {
         // var theInput = document.getElementById("favcolor");
         // var theColor = theInput.value;
         // theInput.addEventListener("input", function() {
-        
+
         // document.getElementById("hex").innerHTML = theInput.value;
         // }, false);
 
         // let colorPicker = document.getElementById("")
 
-    
+
 
     }
 
@@ -102,21 +102,19 @@ namespace Rocket_Jam {
 
                 console.log("pre-spawm");
 
-                if((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) // TODO: let each rocket know how many hierarchies it has
-                {
+                if ((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
+                
 
                     for (let i: number = 0; i < rocketsPerCascade; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
                     }
                 }
 
-                if(rocketParticles[i].canBeOverwritten != true)
-                {
+                if (rocketParticles[i].canBeOverwritten != true) {
                     ctx.save();
                     ctx.beginPath();
                     ctx.arc(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 100 * rocketParticles[i].radius, 0, 2 * Math.PI, false);
-                    if(rocketParticles[i].hierarchy == 0)
-                    {
+                    if (rocketParticles[i].hierarchy == 0) {
                         ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
                     } else {
                         ctx.fillStyle = rocketParticles[i].colorEnd; // TODO: Check if opacity 
@@ -233,7 +231,7 @@ namespace Rocket_Jam {
         }
         console.log("spawn");
 
-        let lifetime: number = (Math.random() *  rocketLifeTime / 8) + rocketLifeTime / 2; // TODO: get value for this from user input
+        let lifetime: number = (Math.random() * rocketLifeTime / 8) + rocketLifeTime / 2; // TODO: get value for this from user input
 
         let colorStart: string = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
         let colorEnd: string = rocketOriginal.colorEnd;

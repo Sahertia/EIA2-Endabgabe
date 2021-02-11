@@ -71,8 +71,7 @@ var Rocket_Jam;
             else if (rocketParticles[i].shouldBeDestroyed) {
                 // Can the rocket spawn sub particles?
                 console.log("pre-spawm");
-                if ((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) // TODO: let each rocket know how many hierarchies it has
-                 {
+                if ((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
                     for (let i = 0; i < rocketsPerCascade; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
                     }
