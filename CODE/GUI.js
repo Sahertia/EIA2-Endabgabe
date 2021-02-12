@@ -1,7 +1,7 @@
 "use strict";
 var Rocket_Jam;
 (function (Rocket_Jam) {
-    window.addEventListener("handleLoad", userInterface);
+    window.addEventListener("load", userInterface);
     /* ----------------------------------PUT THIS INTO GUI-------------------------------------------- */
     // TODO: Save button event listener; 
     // TODO: Write save function;

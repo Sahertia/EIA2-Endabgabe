@@ -100,9 +100,9 @@ namespace Rocket_Jam {
         setInterval(update, updateTimer, canvas);
 
         document?.querySelector("canvas")?.addEventListener("click", updateMouse);
-        document?.querySelector("canvas")?.addEventListener("click", setColor);
+        
 
-
+        // document?.querySelector("canvas")?.addEventListener("click", setColor);
 
         // var theInput = document.getElementById("favcolor");
         // var theColor = theInput.value;
@@ -114,7 +114,6 @@ namespace Rocket_Jam {
         // let colorPicker = document.getElementById("")
 
     }
-
 
 
 
@@ -298,13 +297,6 @@ namespace Rocket_Jam {
 
 
 
-
-
-
-
-
-
-
     function trySpawnRocketParticle(rocketOriginal: RocketWithPhysics, index: number): void {
         let spawnIndex: number = GetFreeRocketSlot();
         if (spawnIndex == -1) {
@@ -332,6 +324,7 @@ namespace Rocket_Jam {
         newRocket.colorEnd = colorEnd;
         rocketParticles[spawnIndex] = newRocket;
     }
+
 
     function GetFreeRocketSlot(): number {
 

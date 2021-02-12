@@ -13,8 +13,10 @@ var Rocket_Jam;
     let updateTimer = 20;
     let xMouse;
     let yMouse;
-    let colorStart = "#ffffff";
-    let colorEnd = "#ffffff";
+    let colorStart;
+    let colorEnd;
+    // let colorStartDefault: String = "#ffffff";
+    // let colorEndDefault: String = "#ffffff";
     let gravity = 9.81 * 10;
     window.addEventListener("load", handleLoad);
     // colorPickerStart.addEventListener("change", watchColorPicker, false);
@@ -35,6 +37,18 @@ var Rocket_Jam;
         console.log("Y: " + yMouse);
         spawnSomeRockets();
     }
+    // function setColor(): void {
+    //     let colorStart: HTMLInputElement = <HTMLInputElement>document.querySelector("#startColor");
+    //     startColor.value = colorStartDefault:
+    //     startColor.addEventListener("input", updateFirst, false);
+    //     startColor.addEventListener("change", updateAll, false);
+    //     startColor.select();
+    // }
+    // function updateFirst(): void {
+    //     let startColor: HTMLInputElement | null = document.querySelector("#startColor");
+    //     if (startColor) {
+    //         startColor.value = this.target.value;
+    //     }
     function handleLoad() {
         canvas = document.querySelector("canvas");
         // let GUI: HTMLDivElement | null = document.querySelector("GUI");
@@ -51,6 +65,7 @@ var Rocket_Jam;
         Rocket_Jam.ctx.stroke();
         setInterval(update, updateTimer, canvas);
         document?.querySelector("canvas")?.addEventListener("click", updateMouse);
+        // document?.querySelector("canvas")?.addEventListener("click", setColor);
         // var theInput = document.getElementById("favcolor");
         // var theColor = theInput.value;
         // theInput.addEventListener("input", function() {
@@ -155,10 +170,10 @@ var Rocket_Jam;
             return;
         }
         let newRocket;
-        let formData = new FormData(document.forms[0]);
+        // let formData: FormData = new FormData(document.forms[0]);
         // quantity = Number(formData.get("quantity"));
         // lifetime = Number(formData.get("explosionSize"));
-        colorStart = String(formData.get("startColor"));
+        // colorStart = String(formData.get("startColor"));
         let lifetime = rocketLifeTime; // stanadard  0.05 + 0.025
         let xPos = canvas.width / 2;
         let yPos = canvas.height; // TODO: check what canvas.height is

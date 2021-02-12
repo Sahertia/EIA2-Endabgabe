@@ -1,6 +1,6 @@
 namespace Rocket_Jam {
 
-    window.addEventListener("handleLoad", userInterface);
+    window.addEventListener("load", userInterface);
 
     /* ----------------------------------PUT THIS INTO GUI-------------------------------------------- */
 
@@ -19,7 +19,8 @@ namespace Rocket_Jam {
     // document.getElementById("endColor")?.addEventListener("change", watchColorPickerEnd, false);
 
 
-    function userInterface(): void {
+    function userInterface(): string {
+        let returnVariable: string = "";
 
         let selector: HTMLSelectElement | null = document.querySelector("presetSelector");
 
@@ -42,7 +43,14 @@ namespace Rocket_Jam {
             // TODO: Load preset into class
 
             selector.appendChild(option);
+
+            
         }
+
+
+        returnVariable += "Hallo";
+        
+        return returnVariable;
 
         // let formData: FormData = new FormData(document.forms[0]);
         // colorStart = String(formData.get("startColor"));
