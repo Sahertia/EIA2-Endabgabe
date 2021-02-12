@@ -16,6 +16,7 @@ var Rocket_Jam;
         */
     // document.getElementById("endColor")?.addEventListener("change", watchColorPickerEnd, false);
     function userInterface() {
+        let returnVariable = "";
         let selector = document.querySelector("presetSelector");
         let option = document.createElement("option");
         option.setAttribute("name", "default");
@@ -32,6 +33,8 @@ var Rocket_Jam;
             // TODO: Load preset into class
             selector.appendChild(option);
         }
+        returnVariable += "Hallo";
+        return returnVariable;
         // let formData: FormData = new FormData(document.forms[0]);
         // colorStart = String(formData.get("startColor"));
         // colorEnd = String(formData.get("endColor"));
