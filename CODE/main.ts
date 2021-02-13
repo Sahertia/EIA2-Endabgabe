@@ -3,7 +3,7 @@ namespace Rocket_Jam {
     let canvas: HTMLCanvasElement | null;
 
     let rocketParticles: RocketWithPhysics[] = []; // TODO
-    let maxRockets: number = 40000;
+    let maxRockets: number = 1000;
 
     let rocketsSpawn: number = 1;
     let rocketsPerCascade: number = 4; // 5 OG
@@ -21,7 +21,8 @@ namespace Rocket_Jam {
 
     window.addEventListener("load", handleLoad);
 
-    function updateMouse(_event: MouseEvent): void {
+
+    function shootMouse(_event: MouseEvent): void {
         _event.preventDefault();
         let rect: ClientRect = ctx.canvas.getBoundingClientRect();
         xMouse = _event.clientX - rect.left;
@@ -30,6 +31,7 @@ namespace Rocket_Jam {
         console.log("Y: " + yMouse);
         spawnSomeRockets();
     }
+
 
     function handleLoad(): void {
         canvas = document.querySelector("canvas");
@@ -50,24 +52,8 @@ namespace Rocket_Jam {
         ctx.stroke();
         setInterval(update, updateTimer, canvas);
 
-        document?.querySelector("canvas")?.addEventListener("click", updateMouse);
-        
-
-        // document?.querySelector("canvas")?.addEventListener("click", setColor);
-
-        // var theInput = document.getElementById("favcolor");
-        // var theColor = theInput.value;
-        // theInput.addEventListener("input", function() {
-
-        // document.getElementById("hex").innerHTML = theInput.value;
-        // }, false);
-
-        // let colorPicker = document.getElementById("")
-
+        document?.querySelector("canvas")?.addEventListener("click", shootMouse);
     }
-
-
-
 
 
 
@@ -84,7 +70,7 @@ namespace Rocket_Jam {
         // console.log("update");
         // ctx.putImageData(saveBackground, 0, 0); // TODO: Understand this line
         ctx.beginPath();
-        ctx.fillStyle = "#00000022"; // TODO: Check if opacity 
+        ctx.fillStyle = "#00000011"; // TODO: Check if opacity 
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.stroke();
 
@@ -98,7 +84,6 @@ namespace Rocket_Jam {
                 console.log("pre-spawm");
 
                 if ((rocketParticles[i].hierarchy < rocketParticles[i].hierarchyMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
-
 
                     for (let i: number = 0; i < rocketsPerCascade; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
@@ -183,7 +168,7 @@ namespace Rocket_Jam {
 
 
 
-    // Code to launch a new rocket
+    // launch a new rocket
     function trySpawnRocketNew(): void {
         let canvas: HTMLCanvasElement | null = document.querySelector("canvas");
         if (!canvas)
@@ -192,8 +177,8 @@ namespace Rocket_Jam {
 
         let colorStart: string  = String(new FormData(document.forms[0]).get("startColor"));
         let colorEnd: string  = String(new FormData(document.forms[0]).get("endColor"));
-        let lifetime: number = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
-        console.log(new FormData(document.forms[0]).get("particleAmount"));
+        let lifetime: number = Number(new FormData(document.forms[0]).get("lifetime")); // stanadard  0.05 + 0.025
+        console.log(new FormData(document.forms[0]).get("lifetime"));
         console.log(lifetime);
         let radius: number = Number(new FormData(document.forms[0]).get("particleSize"));
         console.log(radius);

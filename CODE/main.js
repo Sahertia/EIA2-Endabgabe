@@ -3,7 +3,7 @@ var Rocket_Jam;
 (function (Rocket_Jam) {
     let canvas;
     let rocketParticles = []; // TODO
-    let maxRockets = 40000;
+    let maxRockets = 1000;
     let rocketsSpawn = 1;
     let rocketsPerCascade = 4; // 5 OG
     let updateTimer = 20;
@@ -11,7 +11,7 @@ var Rocket_Jam;
     let yMouse;
     let gravity = 9.81 * 10;
     window.addEventListener("load", handleLoad);
-    function updateMouse(_event) {
+    function shootMouse(_event) {
         _event.preventDefault();
         let rect = Rocket_Jam.ctx.canvas.getBoundingClientRect();
         xMouse = _event.clientX - rect.left;
@@ -35,14 +35,7 @@ var Rocket_Jam;
         Rocket_Jam.ctx.fillRect(0, 0, Rocket_Jam.ctx.canvas.width, Rocket_Jam.ctx.canvas.height);
         Rocket_Jam.ctx.stroke();
         setInterval(update, updateTimer, canvas);
-        document?.querySelector("canvas")?.addEventListener("click", updateMouse);
-        // document?.querySelector("canvas")?.addEventListener("click", setColor);
-        // var theInput = document.getElementById("favcolor");
-        // var theColor = theInput.value;
-        // theInput.addEventListener("input", function() {
-        // document.getElementById("hex").innerHTML = theInput.value;
-        // }, false);
-        // let colorPicker = document.getElementById("")
+        document?.querySelector("canvas")?.addEventListener("click", shootMouse);
     }
     // This big method is called every frame (hopefully). 
     // It checks which rockets needs to be rendered onto the canvas and which rockets are gone and produce sub-particles.
@@ -54,7 +47,7 @@ var Rocket_Jam;
         // console.log("update");
         // ctx.putImageData(saveBackground, 0, 0); // TODO: Understand this line
         Rocket_Jam.ctx.beginPath();
-        Rocket_Jam.ctx.fillStyle = "#00000022"; // TODO: Check if opacity 
+        Rocket_Jam.ctx.fillStyle = "#00000011"; // TODO: Check if opacity 
         Rocket_Jam.ctx.fillRect(0, 0, Rocket_Jam.ctx.canvas.width, Rocket_Jam.ctx.canvas.height);
         Rocket_Jam.ctx.stroke();
         // TODO: Implement physics for all rockets
@@ -131,7 +124,7 @@ var Rocket_Jam;
         }
     }
     Rocket_Jam.spawnSomeRockets = spawnSomeRockets;
-    // Code to launch a new rocket
+    // launch a new rocket
     function trySpawnRocketNew() {
         let canvas = document.querySelector("canvas");
         if (!canvas)
@@ -139,8 +132,8 @@ var Rocket_Jam;
         Rocket_Jam.ctx = canvas.getContext("2d");
         let colorStart = String(new FormData(document.forms[0]).get("startColor"));
         let colorEnd = String(new FormData(document.forms[0]).get("endColor"));
-        let lifetime = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
-        console.log(new FormData(document.forms[0]).get("particleAmount"));
+        let lifetime = Number(new FormData(document.forms[0]).get("lifetime")); // stanadard  0.05 + 0.025
+        console.log(new FormData(document.forms[0]).get("lifetime"));
         console.log(lifetime);
         let radius = Number(new FormData(document.forms[0]).get("particleSize"));
         console.log(radius);
