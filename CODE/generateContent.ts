@@ -25,7 +25,7 @@ namespace Rocket_Jam {
         // let group: HTMLDivElement = document.createElement("div");
         let selection: HTMLSelectElement = document.createElement("select");
         selection.name = "LoadedTitels";
-        selection.addEventListener("change", getDataFromServer);
+        // selection.addEventListener("change", getDataFromServer);
         //selection.id = "Test";
 
         for (let titel of _titelList) {
@@ -55,3 +55,4 @@ namespace Rocket_Jam {
     //     console.log(userValue);
 
     // }
+}

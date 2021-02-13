@@ -13,7 +13,7 @@ var Rocket_Jam;
         // let group: HTMLDivElement = document.createElement("div");
         let selection = document.createElement("select");
         selection.name = "LoadedTitels";
-        selection.addEventListener("change", getDataFromServer);
+        // selection.addEventListener("change", getDataFromServer);
         //selection.id = "Test";
         for (let titel of _titelList) {
             let option = document.createElement("option");
@@ -31,10 +31,4 @@ var Rocket_Jam;
     //     console.log(userValue);
     // }
 })(Rocket_Jam || (Rocket_Jam = {}));
-// function handleChange(_event: Event): void {
-//     let target: HTMLInputElement = <HTMLInputElement>_event.target;
-//     let userValue: string;
-//     userValue = target.value;
-//     console.log(userValue);
-// }
 //# sourceMappingURL=generateContent.js.map

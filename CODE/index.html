@@ -6,9 +6,11 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <title>Canvas</title>
-    <script src="main.js"></script>
+    <script src="Vector.js"></script>
+    <script src="GUI.js"></script>
     <script src="rockets.js"></script>
-   
+    <script src="main.js"></script>
+    <script src="server.js"></script>
 
 </head>
 
@@ -20,11 +22,10 @@
         <form id="userInterface" method="GET">
 
             <fieldset>
-                <div class="controls" id="save-row">
-                    <select id="presetSelector">
-                    </select>
+                <select id="presetSelector">
+                </select>
 
-                    <!--
+                <!--
                     <select>
                         <option value="Default">Default</option>
                         <option value="Preset1">Preset 1</option>
@@ -37,51 +38,42 @@
 
                     -->
 
-                    <button id="save" type="button">Save</button>
-                    <button id="new" type="button">New</button>
-                </div>
+                <button id="save" type="button">Save</button>
+                <button id="new" type="button">New</button>
             </fieldset>
 
             <fieldset>
-                <div class="controls" id="color1">
-                    <input type="color" id="startColor" name="startColor" value="#ffffff">
-                    <label for="startColor">First color</label>
-                </div>
+                <input type="color" id="startColor" name="startColor" value="#ffffff">
+                <label for="startColor">First color</label>
             </fieldset>
 
             <fieldset>
-                <div class="controls" id="color2">
-                    <input type="color" id="endColor" name="endColor" value="#ffffff">
-                    <label for="startColor">Second color</label>
-                </div>
+                <input type="color" id="endColor" name="endColor" value="#ffffff">
+                <label for="startColor">Second color</label>
             </fieldset>
 
             <fieldset>
-                <div class="controls" id="particleAmount">
-                    <input type="range" name="Duration" id="duration" min="1" max="3" step="1" value="1">
-                    <label for="particleAmount">Particle amount</label>
-                </div>
+                <input type="range" name="particleAmount" id="particleAmount" min="0.01" max="0.5" step="0.01"
+                    value="0.5">
+                <label for="particleAmount">Particle amount</label>
             </fieldset>
 
             <fieldset>
-                <div class="controls" id="particleSize">
-                    <input type="range" name="Duration" id="duration" min="1" max="3" step="1" value="1">
-                    <label for="particleAmount">Particle size</label>
-                </div>
-            </fieldset>  <!--lifetime of rockets includes speed-->
+                <input type="range" name="particleSize" id="particleSize" min="0.1" max="5" step="0.1" value="1">
+                <label for="particleSize">Particle size</label>
+            </fieldset>
+            <!--lifetime of rockets includes speed-->
 
             <fieldset>
-                <div id="hierachy">
-                    <legend>Explosions</legend>
-                    <input type="radio" name="ExplosionTimes" class="hierachy" value="2" checked />
-                    <label for="one">1</label>
-                    <input type="radio" name="ExplosionTimes" class="hierachy" value="3" />
-                    <label for="two">2</label>
-                    <input type="radio" name="ExplosionTimes" class="hierachy" value="4" />
-                    <label for="three">3</label>
-                    <input type="radio" name="ExplosionTimes" class="hierachy" value="4" />
-                    <label for="three">3</label>
-                </div>
+                <legend>Explosions</legend>
+                <input type="radio" name="ExplosionTimes" class="hierachy" value="1" checked id="hierachy" />
+                <label for="one">1</label>
+                <input type="radio" name="ExplosionTimes" class="hierachy" value="2" />
+                <label for="two">2</label>
+                <input type="radio" name="ExplosionTimes" class="hierachy" value="3" />
+                <label for="three">3</label>
+                <input type="radio" name="ExplosionTimes" class="hierachy" value="4" />
+                <label for="three">3</label>
             </fieldset>
 
         </form>
