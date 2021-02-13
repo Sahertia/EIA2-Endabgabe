@@ -5,7 +5,8 @@ namespace Rocket_Jam {
         public y: number;
 
         constructor(_x: number, _y: number) {
-            this.set(_x, _y);
+            this.x = _x;
+            this.y = _y;
         }
 
        public set(_x: number, _y: number): void {
@@ -23,10 +24,8 @@ namespace Rocket_Jam {
             this.y += _addend.y;
         }
 
-        public  copy(): Vector {
+        public copy(): Vector {
             return new Vector(this.x, this.y);
-
         }
-
     }
 }

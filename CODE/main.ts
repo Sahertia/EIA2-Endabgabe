@@ -3,52 +3,23 @@ namespace Rocket_Jam {
     let canvas: HTMLCanvasElement | null;
 
     let rocketParticles: RocketWithPhysics[] = []; // TODO
-    let maxRockets: number = 10000;
+    let maxRockets: number = 40000;
 
-    let rocketsSpawm: number = 1;
-
-    let rocketCascadeMax: number = 2; // 3 OG
+    let rocketsSpawn: number = 1;
     let rocketsPerCascade: number = 4; // 5 OG
-
-    let rocketLifeTime: number = 0.05;
-    let rocketRadius: number = 0.5;
-    let rocketSize: number = 0.5;
 
     let updateTimer: number = 20;
 
     let xMouse: number;
     let yMouse: number;
 
-    let colorStart: string;
-    let colorEnd: string;
-    // let colorStartDefault: String = "#ffffff";
-    // let colorEndDefault: String = "#ffffff";
-
-
     let gravity: number = 9.81 * 10;
 
-    // let colorPickerStart: HTMLInputElement = <HTMLInputElement>document.getElementById("startColor");
-    // let pickerValue: string;
-    // let colorPickerEnd: HTMLInputElement = <HTMLInputElement>document.getElementById("endColor");
-
+    // let guiValues: interfaceValues | null;
 
     export let ctx: CanvasRenderingContext2D;
 
     window.addEventListener("load", handleLoad);
-    // colorPickerStart.addEventListener("change", watchColorPicker, false);
-    // colorPickerEnd.addEventListener("change", watchColorPicker, false);
-
-    // window.addEventListener("click", spawnSomeRockets);
-
-    // function watchColorPicker(_event: Event): void {
-    //     let target: HTMLInputElement = <HTMLInputElement>_event.target;
-
-    //     if (target.type == "color") {
-    //         target.value
-    //     }
-
-
-    // }
 
     function updateMouse(_event: MouseEvent): void {
         _event.preventDefault();
@@ -59,26 +30,6 @@ namespace Rocket_Jam {
         console.log("Y: " + yMouse);
         spawnSomeRockets();
     }
-
-    // function setColor(): void {
-    //     let colorStart: HTMLInputElement = <HTMLInputElement>document.querySelector("#startColor");
-    //     startColor.value = colorStartDefault:
-    //     startColor.addEventListener("input", updateFirst, false);
-    //     startColor.addEventListener("change", updateAll, false);
-    //     startColor.select();
-    // }
-
-    // function updateFirst(): void {
-    //     let startColor: HTMLInputElement | null = document.querySelector("#startColor");
-
-    //     if (startColor) {
-    //         startColor.value = this.target.value;
-    //     }
-
-
-
-
-
 
     function handleLoad(): void {
         canvas = document.querySelector("canvas");
@@ -146,7 +97,7 @@ namespace Rocket_Jam {
 
                 console.log("pre-spawm");
 
-                if ((rocketParticles[i].hierarchy < rocketCascadeMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
+                if ((rocketParticles[i].hierarchy < rocketParticles[i].hierarchyMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
 
 
                     for (let i: number = 0; i < rocketsPerCascade; i++) {
@@ -157,7 +108,7 @@ namespace Rocket_Jam {
                 if (rocketParticles[i].canBeOverwritten != true) {
                     ctx.save();
                     ctx.beginPath();
-                    ctx.arc(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 100 * rocketParticles[i].radius, 0, 2 * Math.PI, false);
+                    ctx.arc(rocketParticles[i].position.x, rocketParticles[i].position.y, 100 * rocketParticles[i].radius, 0, 2 * Math.PI, false);
                     if (rocketParticles[i].hierarchy == 0) {
                         ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
                     } else {
@@ -189,13 +140,13 @@ namespace Rocket_Jam {
 
                 if (rocketParticles[i].hierarchy == 0) {
                     ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
-                    console.log(1);
+                    // console.log(1);
                 } else {
                     ctx.fillStyle = rocketParticles[i].colorEnd; // TODO: Check if opacity 
-                    console.log(2);
+                    // console.log(2);
                 }
 
-                ctx.arc(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 50 * rocketParticles[i].size, 0, 2 * Math.PI, false);
+                ctx.arc(rocketParticles[i].position.x, rocketParticles[i].position.y, 50 * rocketParticles[i].size, 0, 2 * Math.PI, false);
                 // ctx.fillRect(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 50 * rocketParticles[i].size, 200 * rocketParticles[i].size);
                 // let rotationValue: number = Math.sin(this.xVelocity / this.yVelocity);
                 // ctx.rotate(rotationValue + 3.1415 / 2);
@@ -216,9 +167,9 @@ namespace Rocket_Jam {
 
 
     // Is triggered on click, will try to create new rockets
-    function spawnSomeRockets(): void {
+    export function spawnSomeRockets(): void {
         // On start, spawn 5 rockets randomly
-        for (let i: number = 0; i < rocketsSpawm; i++) {
+        for (let i: number = 0; i < rocketsSpawn; i++) {
             trySpawnRocketNew();
             // console.log(rocketParticles[i].size);
             // console.log(rocketParticles[i].xPosition);
@@ -239,6 +190,17 @@ namespace Rocket_Jam {
             return;
         ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
 
+        let colorStart: string  = String(new FormData(document.forms[0]).get("startColor"));
+        let colorEnd: string  = String(new FormData(document.forms[0]).get("endColor"));
+        let lifetime: number = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
+        console.log(new FormData(document.forms[0]).get("particleAmount"));
+        console.log(lifetime);
+        let radius: number = Number(new FormData(document.forms[0]).get("particleSize"));
+        console.log(radius);
+        let size: number = Number(new FormData(document.forms[0]).get("particleSize"));
+        console.log(size);
+        let hierarchyMax: number = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
+        console.log(hierarchyMax);
 
         let spawnIndex: number = GetFreeRocketSlot();
         if (spawnIndex == -1 || canvas == null) {
@@ -246,51 +208,12 @@ namespace Rocket_Jam {
         }
 
         let newRocket: RocketWithPhysics;
+        let pos: Vector = new Vector(canvas.width / 2, canvas.height); 
+        // This should roughly go from the starting position to the mouse x position:
+        // This should roughly be the formular to calculate the correct y velocity against the gravity. But it only works in the lower number areas.
+        let vel: Vector = new Vector((xMouse - pos.x) / updateTimer / 5 * 4, Math.sqrt((canvas.height - yMouse) / (gravity / 2) * updateTimer) * -3.15);
 
-        // let formData: FormData = new FormData(document.forms[0]);
-
-
-
-        // quantity = Number(formData.get("quantity"));
-        // lifetime = Number(formData.get("explosionSize"));
-        // colorStart = String(formData.get("startColor"));
-
-
-        let lifetime: number = rocketLifeTime; // stanadard  0.05 + 0.025
-
-        let xPos: number = canvas.width / 2;
-        let yPos: number = canvas.height; // TODO: check what canvas.height is
-
-
-        let xVel: number = (xMouse - xPos) / updateTimer / 5 * 4; // This should roughly go from the starting position to the mouse x position:
-        let yVel: number = Math.sqrt((canvas.height - yMouse) / (gravity / 2) * updateTimer) * -3.15; // This should roughly be the formular to calculate the correct y velocity against the gravity. But it only works in the lower number areas.
-
-
-        // TODO: Get small/middle/large // DO this with the GUI
-        /*
-        if()
-        {
- 
-        }
-        */
-        let size: number = rocketSize;
-
-        // trying to set color
-
-        // colorStart = (document.getElementById("startColor") as HTMLInputElement).value;
-        // colorEnd = (document.getElementById("endColor") as HTMLInputElement).value;
-
-
-        let formElement: HTMLElement = <HTMLElement>document.querySelector("input#startColor");
-        colorStart = "" + formElement.getAttribute("value");
-        formElement = <HTMLElement>document.querySelector("input#endColor");
-        colorEnd = "" + formElement.getAttribute("value");
-
-        console.log(colorStart + " | " + colorEnd);
-
-        let radius: number = Math.random() * 0.1 + rocketRadius; // TODO: get value from user input
-
-        newRocket = new RocketWithPhysics(xPos, yPos, xVel, yVel, gravity, lifetime, size, colorStart, colorEnd, 0, radius);
+        newRocket = new RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, 0, hierarchyMax, radius);
         rocketParticles[spawnIndex] = newRocket;
     }
 
@@ -299,30 +222,32 @@ namespace Rocket_Jam {
 
     function trySpawnRocketParticle(rocketOriginal: RocketWithPhysics, index: number): void {
         let spawnIndex: number = GetFreeRocketSlot();
-        if (spawnIndex == -1) {
-            return;
+        if (spawnIndex != -1) {
+            console.log("spawn");
+
+            let lifetime: number = (Math.random() * 0.01 + (rocketOriginal.lifetimeMax * 0.6)); // TODO: get value for this from user input
+
+            let position: Vector = new Vector(0, 0);
+            let velocity: Vector = new Vector(0, 0);
+
+            let colorStart: string = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
+            // let colorStart: string = (document.getElementById("startColor") as HTMLInputElement).value;
+            let colorEnd: string = rocketOriginal.colorEnd;
+            //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
+
+
+            let size: number = rocketParticles[index].size * 0.5; // TODO: get value from user input
+            let radius: number = rocketParticles[index].radius * 0.8; // TODO: get value from user input
+
+            let newRocket: RocketWithPhysics;
+            newRocket = new RocketWithPhysics(position, velocity, gravity, lifetime, size, colorStart, colorEnd, rocketOriginal.hierarchy + 1, rocketOriginal.hierarchyMax, radius);
+            newRocket.copyPosition(rocketParticles[index]);
+            newRocket.velocity.x = (Math.random() - 0.5) * 40;
+            newRocket.velocity.y = (Math.random() - 0.75) * 40 + rocketOriginal.velocity.y / updateTimer;
+            newRocket.colorStart = colorStart;
+            newRocket.colorEnd = colorEnd;
+            rocketParticles[spawnIndex] = newRocket;
         }
-        console.log("spawn");
-
-        let lifetime: number = (Math.random() * rocketLifeTime / 8) + rocketLifeTime / 2; // TODO: get value for this from user input
-
-        let colorStart: string = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
-        // let colorStart: string = (document.getElementById("startColor") as HTMLInputElement).value;
-        let colorEnd: string = rocketOriginal.colorEnd;
-        //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
-
-
-        let size: number = rocketParticles[index].size * 0.5; // TODO: get value from user input
-        let radius: number = rocketParticles[index].radius * 0.8; // TODO: get value from user input
-
-        let newRocket: RocketWithPhysics;
-        newRocket = new RocketWithPhysics(0, 0, 0, 0, gravity, lifetime, size, colorStart, colorEnd, rocketOriginal.hierarchy + 1, radius);
-        newRocket.copyPosition(rocketParticles[index]);
-        newRocket.xVelocity = (Math.random() - 0.5) * 40;
-        newRocket.yVelocity = (Math.random() - 0.75) * 40 + rocketOriginal.yVelocity / updateTimer;
-        newRocket.colorStart = colorStart;
-        newRocket.colorEnd = colorEnd;
-        rocketParticles[spawnIndex] = newRocket;
     }
 
 
