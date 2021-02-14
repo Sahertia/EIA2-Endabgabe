@@ -9,7 +9,7 @@ export namespace Rocket_Jam {
     }
 
     let rocketjam: Mongo.Collection; // The server data structure
-    let databaseUrl: string = "mongodb+srv://Rocket_Jam:Firework@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
+    let databaseUrl: string = "mongodb+srv://Rocket_Jam:hZC7CVfFH0kKrpZe@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
 
     let port: number | string | undefined = process.env.PORT;
     if (port == undefined)
