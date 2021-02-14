@@ -1,11 +1,11 @@
 "use strict";
 var Rocket_Jam;
 (function (Rocket_Jam) {
+    let serverPage = "https://rocketjam.herokuapp.com/";
     let canvas;
     let rocketParticles = []; // TODO
-    let maxRockets = 1000;
+    let maxRockets = 5000;
     let rocketsSpawn = 1;
-    let rocketsPerCascade = 4; // 5 OG
     let updateTimer = 20;
     let xMouse;
     let yMouse;
@@ -20,7 +20,7 @@ var Rocket_Jam;
         console.log("Y: " + yMouse);
         spawnSomeRockets();
     }
-    function handleLoad() {
+    async function handleLoad() {
         canvas = document.querySelector("canvas");
         // let GUI: HTMLDivElement | null = document.querySelector("GUI");
         if (!canvas)
@@ -36,6 +36,32 @@ var Rocket_Jam;
         Rocket_Jam.ctx.stroke();
         setInterval(update, updateTimer, canvas);
         document?.querySelector("canvas")?.addEventListener("click", shootMouse);
+        /*
+        let response: Response = await fetch(serverPage + "?" + "command=getAllDatas");
+        let dataAsString: string = await response.text();
+        console.log(dataAsString);
+        result = JSON.parse(dataAsString);
+        */
+        // let response: Response = await fetch(serverPage + "?" + "command=getTitles");
+        // let listOfTitels: string = await response.text();
+        // let titelList: iRocket[] = JSON.parse(listOfTitels);
+        getDataFromServer();
+        Rocket_Jam.generateContent(Rocket_Jam.result);
+        let loadBtn = document.querySelector("button#loadBtn");
+        loadBtn.addEventListener("click", Rocket_Jam.loadCurrentSelectedPreset);
+        let saveBtn = document.querySelector("button#saveBtn");
+        saveBtn.addEventListener("click", sendDataToServer);
+    }
+    // Function which loads all the rockets from the server into the main
+    // Called only at start
+    async function getDataFromServer() {
+        let response = await fetch(serverPage + "?" + "command=getAllDatas");
+        let responseContent = await response.text();
+        let allDatas = JSON.parse(responseContent);
+        // result = allDatas.find(item => item.rocketTitel === userValue);
+        Rocket_Jam.result = allDatas;
+        console.log("Datein wurden geladen");
+        console.log(Rocket_Jam.result);
     }
     // This big method is called every frame (hopefully). 
     // It checks which rockets needs to be rendered onto the canvas and which rockets are gone and produce sub-particles.
@@ -59,7 +85,7 @@ var Rocket_Jam;
                 // Can the rocket spawn sub particles?
                 console.log("pre-spawm");
                 if ((rocketParticles[i].hierarchy < rocketParticles[i].hierarchyMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
-                    for (let i = 0; i < rocketsPerCascade; i++) {
+                    for (let i = 0; i < rocketParticles[i].particleAmount; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
                     }
                 }
@@ -114,6 +140,21 @@ var Rocket_Jam;
             }
         }
     }
+    // Function which condensed the current values of the GUI into a rocket, and then saves that as a new one.
+    async function sendDataToServer(_event) {
+        let rocketGUIData = Rocket_Jam.getCurrentValues();
+        let query = rocketGUIData.toString();
+        // rocketTitel = textArea.value;
+        // let presetName: string  = String(new FormData(document.forms[0]).get("presetName"));
+        // let controlPanelData = new FormData(form);
+        // let query = new URLSearchParams(controlPanelData);
+        // query.append("rocketTitel", rocketTitel);
+        // textArea.value = "";
+        let response = await fetch(serverPage + "?" + query);
+        let responseText = await response.text();
+        console.log("Daten geschickt: ", responseText);
+    }
+    ////// ------------------------------------------------------------------------
     // Is triggered on click, will try to create new rockets
     function spawnSomeRockets() {
         // On start, spawn 5 rockets randomly
@@ -135,9 +176,10 @@ var Rocket_Jam;
         let lifetime = Number(new FormData(document.forms[0]).get("lifetime")); // stanadard  0.05 + 0.025
         console.log(new FormData(document.forms[0]).get("lifetime"));
         console.log(lifetime);
-        let radius = Number(new FormData(document.forms[0]).get("particleSize"));
+        let radius = Number(new FormData(document.forms[0]).get("particleRadius"));
         console.log(radius);
         let size = Number(new FormData(document.forms[0]).get("particleSize"));
+        let particleAmount = Number(new FormData(document.forms[0]).get("particleAmount"));
         console.log(size);
         let hierarchyMax = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
         console.log(hierarchyMax);
@@ -150,7 +192,7 @@ var Rocket_Jam;
         // This should roughly go from the starting position to the mouse x position:
         // This should roughly be the formular to calculate the correct y velocity against the gravity. But it only works in the lower number areas.
         let vel = new Rocket_Jam.Vector((xMouse - pos.x) / updateTimer / 5 * 4, Math.sqrt((canvas.height - yMouse) / (gravity / 2) * updateTimer) * -3.15);
-        newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, 0, hierarchyMax, radius);
+        newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, 0, particleAmount, hierarchyMax, radius);
         rocketParticles[spawnIndex] = newRocket;
     }
     function trySpawnRocketParticle(rocketOriginal, index) {
@@ -166,8 +208,9 @@ var Rocket_Jam;
             //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
             let size = rocketParticles[index].size * 0.5; // TODO: get value from user input
             let radius = rocketParticles[index].radius * 0.8; // TODO: get value from user input
+            let particleAmount = rocketParticles[index].particleAmount / 2;
             let newRocket;
-            newRocket = new Rocket_Jam.RocketWithPhysics(position, velocity, gravity, lifetime, size, colorStart, colorEnd, rocketOriginal.hierarchy + 1, rocketOriginal.hierarchyMax, radius);
+            newRocket = new Rocket_Jam.RocketWithPhysics(position, velocity, gravity, lifetime, size, colorStart, colorEnd, particleAmount, rocketOriginal.hierarchy + 1, rocketOriginal.hierarchyMax, radius);
             newRocket.copyPosition(rocketParticles[index]);
             newRocket.velocity.x = (Math.random() - 0.5) * 40;
             newRocket.velocity.y = (Math.random() - 0.75) * 40 + rocketOriginal.velocity.y / updateTimer;

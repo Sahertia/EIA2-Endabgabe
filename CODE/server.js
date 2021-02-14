@@ -1,50 +1,39 @@
-import * as Http from "http";
-import * as Url from "url";
-import * as Mongo from "mongodb";
-
-export namespace Rocket_Jam {
-
-    export interface Rocket {
-        [type: string]: string | string[] | undefined;
-    }
-
-    let rocketjam: Mongo.Collection; // The server data structure
-    let databaseUrl: string = "mongodb+srv://Rocket_Jam:Rocket_Jam@cluster0.qwwrz.mongodb.net/Rocket_Jam?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
-
-    let port: number | string | undefined = process.env.PORT;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Rocket_Jam = void 0;
+const Http = require("http");
+const Url = require("url");
+const Mongo = require("mongodb");
+var Rocket_Jam;
+(function (Rocket_Jam) {
+    let rocketjam; // The server data structure
+    let databaseUrl = "mongodb+srv://Rocket_Jam:Rocket_Jam@cluster0.qwwrz.mongodb.net/Rocket_Jam?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
+    let port = process.env.PORT;
     if (port == undefined)
         port = 5001;
-
     startServer(port);
     connectToDatabase(databaseUrl);
-
-    function startServer(_port: number | string): void {
-
-        let server: Http.Server = Http.createServer();
+    function startServer(_port) {
+        let server = Http.createServer();
         console.log("Server startet auf Port " + _port);
         server.listen(_port);
         server.addListener("request", handleRequest);
     }
-
-    async function connectToDatabase(_url: string): Promise<void> {
-        let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
-        let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
+    async function connectToDatabase(_url) {
+        let options = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
+        let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
         rocketjam = mongoClient.db("Firework").collection("Rockets");
         console.log("Database connection", rocketjam != undefined);
     }
-
-    function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
+    function handleRequest(_request, _response) {
         console.log("handleRequest");
         _response.setHeader("content-type", "text/html; charset=utf-8");
         _response.setHeader("Access-Control-Allow-Origin", "*");
-
         if (_request.url) {
-            let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true); // der Url.parser wandelt den UrlWithParsedQuery in ein anders Format um. Durch true wird daraus ein besser lesbares assoziatives Array. 
-            let command: string | string[] | undefined = url.query["command"];
-            
+            let url = Url.parse(_request.url, true); // der Url.parser wandelt den UrlWithParsedQuery in ein anders Format um. Durch true wird daraus ein besser lesbares assoziatives Array. 
+            let command = url.query["command"];
             console.log("URL", _request.url);
-
             /*
             if (command === "getTitles") {
                 getTitles(_request, _response);
@@ -63,11 +52,8 @@ export namespace Rocket_Jam {
             }
             return;
         }
-
         _response.end();
-
     }
-
     /*
     // This function is called on start to get the titles of all saved rockets in the DB
     async function getTitles(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
@@ -80,34 +66,26 @@ export namespace Rocket_Jam {
         _response.end();
     }
     */
-
     // THis function is called to get the currently saved rockets in the DB
-    async function getAllDatas(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
-        let result: Mongo.Cursor<any> = rocketjam.find();
-      
-        let arrayResult: string[] = await result.toArray();
-        let jsonResult: string = JSON.stringify(arrayResult);
+    async function getAllDatas(_request, _response) {
+        let result = rocketjam.find();
+        let arrayResult = await result.toArray();
+        let jsonResult = JSON.stringify(arrayResult);
         // console.log(jsonResult);
         _response.write(jsonResult); //Übergabe der Daten an den client
         _response.end();
     }
-
-    function storeRocket(_userRocket: Rocket, _response: Http.ServerResponse): void {
+    function storeRocket(_userRocket, _response) {
         rocketjam.insertOne(_userRocket);
         _response.end();
     }
-
-
-
-
     // async function getTitels(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
     //     let result: Mongo.Cursor<any> = fireworkCollection.find({}, { projection: { _id: 0, rocketTitel: 1 } });
     //     let arrayResult: string[] = await result.toArray();
     //     let jsonResult: string = JSON.stringify(arrayResult);
     //     console.log(jsonResult);
-
     //     _response.write(jsonResult); //Übergabe der Daten an den client
-
     //     _response.end();
     // }
-}
+})(Rocket_Jam = exports.Rocket_Jam || (exports.Rocket_Jam = {}));
+//# sourceMappingURL=server.js.map

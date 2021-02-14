@@ -10,7 +10,9 @@
     <script src="GUI.js"></script>
     <script src="rockets.js"></script>
     <script src="main.js"></script>
+    <script src="data.js"></script>
     <script src="server.js"></script>
+
 
 </head>
 
@@ -38,8 +40,13 @@
 
                     -->
 
-                <button id="save" type="button">Save</button>
-                <button id="new" type="button">New</button>
+                <button id="saveBtn" type="button">Save</button>
+                <button id="loadBtn" type="button">Load</button>
+            </fieldset>
+
+            <fieldset>
+                <input type="text" id="presetName" name="presetName" value="Preset Name">
+                <label for="presetName">Preset Name</label>
             </fieldset>
 
             <fieldset>
@@ -56,17 +63,23 @@
                 <input type="range" name="lifetime" id="lifetime" min="0.01" max="0.09" step="0.01" value="0.05">
                 <label for="lifetime">Lifetime</label>
             </fieldset>
-            <fieldset>
-                <input type="range" name="particleAmount" id="particleAmount" min="0.01" max="0.09" step="0.01"
-                    value="2">
-                <label for="particleAmount">Particle amount</label>
-            </fieldset>
 
             <fieldset>
                 <input type="range" name="particleSize" id="particleSize" min="0.1" max="4" step="0.1" value="2">
                 <label for="particleSize">Particle size</label>
             </fieldset>
             <!--lifetime of rockets includes speed-->
+            <fieldset>
+                <input type="range" name="particleRadius" id="particleRadius" min="0.01" max="0.09" step="0.01"
+                    value="2">
+                <label for="particleRadius">Particle radius</label>
+            </fieldset>
+
+            <fieldset>
+                <input type="range" name="particleAmount" id="particleAmount" min="1" max="5" step="1"
+                    value="2">
+                <label for="particleAmount">Particle amount</label>
+            </fieldset>
 
             <fieldset>
                 <legend>Explosions</legend>

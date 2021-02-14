@@ -2,7 +2,7 @@
 var Rocket_Jam;
 (function (Rocket_Jam) {
     class RocketWithPhysics {
-        constructor(_position, _velocity, _yGravity, _lifetime, _size, _colorStart, _colorEnd, _hierachy, _hierarchyMax, _radius) {
+        constructor(_position, _velocity, _yGravity, _lifetime, _size, _colorStart, _colorEnd, _particleAmount, _hierachy, _hierarchyMax, _radius) {
             this.position = _position;
             this.velocity = _velocity;
             this.rotationValue = 0;
@@ -14,6 +14,7 @@ var Rocket_Jam;
             this.colorEnd = _colorEnd;
             this.shouldBeDestroyed = false;
             this.canBeOverwritten = false;
+            this.particleAmount = _particleAmount;
             this.hierarchy = _hierachy;
             this.hierarchyMax = _hierarchyMax;
             this.radius = _radius;

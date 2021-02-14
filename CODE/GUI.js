@@ -1,74 +1,93 @@
 "use strict";
 var Rocket_Jam;
 (function (Rocket_Jam) {
-    window.addEventListener("load", init);
-    function init() {
-        //let returnVariable: string = "";
+    // window.addEventListener("load", generateContent);
+    // The GUI values, that are both spawning values for the rocket as well as saved classes for the server
+    function generateContent(_data) {
+        for (let category in _data) {
+            let items = _data[category];
+            switch (category) {
+                case "Rockets":
+                    CreateOption(items);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    Rocket_Jam.generateContent = generateContent;
+    // Create a option in the selector for every saved rocket preset
+    function CreateOption(_items) {
         let selector = document.querySelector("select#presetSelector");
         if (selector == null)
             return;
         console.log(selector);
-        let option = document.createElement("option");
-        option.setAttribute("name", "default");
-        option.value = option.textContent = "Default rocket";
-        selector.appendChild(option);
-        for (let i = 0; i < 7; i++) {
-            if (selector == null)
-                return;
+        let selectValue = 0;
+        for (let i = 0; i < _items.length; i++) {
+            let option = document.createElement("option");
             option = document.createElement("option");
             option.setAttribute("name", "default");
+            option.setAttribute("value", "" + selectValue);
             option.value = option.textContent = "Preset " + i;
-            // TODO: Load preset into class
             selector.appendChild(option);
+            selectValue++;
         }
-        // document.getElementById("userInterface")?.addEventListener("change", userInterface);
     }
     // This function is used on clicking the save button
-    function loadValues() {
+    function getCurrentValues() {
         let colorStart = String(new FormData(document.forms[0]).get("startColor"));
         let colorEnd = String(new FormData(document.forms[0]).get("endColor"));
         let lifetime = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
-        console.log(new FormData(document.forms[0]).get("particleAmount"));
-        console.log(lifetime);
-        let radius = Number(new FormData(document.forms[0]).get("particleSize"));
+        // console.log(new FormData(document.forms[0]).get("particleAmount"));
+        // console.log(lifetime);
         let size = Number(new FormData(document.forms[0]).get("particleSize"));
+        let radius = Number(new FormData(document.forms[0]).get("particleRadius"));
+        let particleAmount = Number(new FormData(document.forms[0]).get("particleAmount"));
         let hierarchyMax = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
         // Create a data object here for saving in the db
-        let iValues;
-        iValues.size = size;
+        let iValues = {
+            preset: "Default X",
+            startColor: colorStart,
+            endColor: colorEnd,
+            lifetime: lifetime,
+            particleSize: size,
+            particleRadius: radius,
+            spawnAmount: particleAmount,
+            ExplosionTimes: hierarchyMax
+        };
+        return iValues;
     }
-    /*
-    export function userInterface(): interfaceValues | null {
-        let formData: FormData = new FormData(document.forms[0]);
-        let guiValues: interfaceValues | null;
-
-        guiValues.colorStart = String(formData.get("startColor"));
-        guiValues.colorEnd = String(formData.get("endColor"));
-        guiValues.lifetime = Number(formData.get("particleAmount"));
-        guiValues.radius = Number(formData.get("particleSize"));
-        guiValues.size = Number(formData.get("particleSize"));
-        guiValues.explosionNumber = Number(formData.get("ExplosionTimes"));
-
-        if(guiValues != undefined) {
-            return guiValues;
-        }
-        console.log(guiValues);
-        return null;
+    Rocket_Jam.getCurrentValues = getCurrentValues;
+    function loadCurrentSelectedPreset() {
+        let presetIndex = Number(new FormData(document.forms[0]).get("presetSelector"));
+        setCurrentValues(Rocket_Jam.result.iRocket[presetIndex]);
     }
-    */
-    // TODO: Write save function;
-    // TODO: Load presets
-    // function setColor(): void {
-    //     let colorStart: HTMLInputElement = <HTMLInputElement>document.querySelector("#startColor");
-    //     startColor.value = colorStartDefault:
-    //     startColor.addEventListener("input", updateFirst, false);
-    //     startColor.addEventListener("change", updateAll, false);
-    //     startColor.select();
-    // }
-    // function updateFirst(): void {
-    //     let startColor: HTMLInputElement | null = document.querySelector("#startColor");
-    //     if (startColor) {
-    //         startColor.value = this.target.value;
-    //     }
+    Rocket_Jam.loadCurrentSelectedPreset = loadCurrentSelectedPreset;
+    function setCurrentValues(values) {
+        let html;
+        let htmlTarget;
+        htmlTarget = "presetName";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.preset);
+        htmlTarget = "startColor";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.startColor);
+        htmlTarget = "endColor";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.endColor);
+        htmlTarget = "particleSize";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.particleSize);
+        htmlTarget = "particleRadius";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.particleRadius);
+        htmlTarget = "particleAmount";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.spawnAmount);
+        htmlTarget = "ExplosionTimes";
+        html = document.querySelector("input#" + htmlTarget);
+        console.log(html.getAttribute("value") + " |  " + values.ExplosionTimes);
+        html.setAttribute("value", "" + values.ExplosionTimes);
+    }
 })(Rocket_Jam || (Rocket_Jam = {}));
 //# sourceMappingURL=GUI.js.map

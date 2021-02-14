@@ -1,11 +1,6 @@
+/*
 namespace Rocket_Jam {
 
-    export interface Rocket {
-        rocketTitel: string;
-        explosionSize: number;
-        particlecolor: string;
-        particleshape: string;
-       }
 
     export function generateContent(_titelList: Rocket[]): void {
 
@@ -56,3 +51,4 @@ namespace Rocket_Jam {
 
     // }
 }
+*/

@@ -1,99 +1,109 @@
 namespace Rocket_Jam {
-    window.addEventListener("load", init);
+    // window.addEventListener("load", generateContent);
 
     // The GUI values, that are both spawning values for the rocket as well as saved classes for the server
-    export interface interfaceValues {
-        colorStart: string;
-        colorEnd: string;
-        lifetime: number;
-        radius: number;
-        size: number;
-        explosionNumber: number;
+
+    export function generateContent(_data: iData): void {
+        for (let category in _data) {
+            let items: iRocket[] = _data[category];
+            switch (category) {
+                case "Rockets":
+                    CreateOption(items);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    function init(): void {
-        //let returnVariable: string = "";
-
+    // Create a option in the selector for every saved rocket preset
+    function CreateOption(_items: iRocket[]): void {
         let selector: HTMLSelectElement | null = document.querySelector("select#presetSelector");
         if (selector == null)
             return;
 
         console.log(selector);
 
-        let option: HTMLOptionElement = document.createElement("option");
-        option.setAttribute("name", "default");
-        option.value = option.textContent = "Default rocket";
-
-        selector.appendChild(option);
-
-        for (let i: number = 0; i < 7; i++) {
-            if (selector == null)
-                return;
-
-
+        let selectValue: number = 0;
+        for(let i = 0; i < _items.length; i++) {
+            let option: HTMLOptionElement = document.createElement("option");
             option = document.createElement("option");
             option.setAttribute("name", "default");
+            option.setAttribute("value", "" + selectValue);
             option.value = option.textContent = "Preset " + i;
-
-            // TODO: Load preset into class
             selector.appendChild(option);
+
+            selectValue++;
         }
-        // document.getElementById("userInterface")?.addEventListener("change", userInterface);
     }
 
+
     // This function is used on clicking the save button
-    function loadValues(): void {
+    export function getCurrentValues(): iRocket {
         let colorStart: string  = String(new FormData(document.forms[0]).get("startColor"));
         let colorEnd: string  = String(new FormData(document.forms[0]).get("endColor"));
         let lifetime: number = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
-        console.log(new FormData(document.forms[0]).get("particleAmount"));
-        console.log(lifetime);
-        let radius: number = Number(new FormData(document.forms[0]).get("particleSize"));
+        // console.log(new FormData(document.forms[0]).get("particleAmount"));
+        // console.log(lifetime);
         let size: number = Number(new FormData(document.forms[0]).get("particleSize"));
+        let radius: number = Number(new FormData(document.forms[0]).get("particleRadius"));
+        let particleAmount: number = Number(new FormData(document.forms[0]).get("particleAmount"));
         let hierarchyMax: number = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
 
         // Create a data object here for saving in the db
-        let iValues: interfaceValues;
-        iValues.size = size;
-    }
-
-    /*
-    export function userInterface(): interfaceValues | null {
-        let formData: FormData = new FormData(document.forms[0]);
-        let guiValues: interfaceValues | null;
-
-        guiValues.colorStart = String(formData.get("startColor"));
-        guiValues.colorEnd = String(formData.get("endColor"));
-        guiValues.lifetime = Number(formData.get("particleAmount"));
-        guiValues.radius = Number(formData.get("particleSize"));
-        guiValues.size = Number(formData.get("particleSize"));
-        guiValues.explosionNumber = Number(formData.get("ExplosionTimes"));
-
-        if(guiValues != undefined) {
-            return guiValues;
+        let iValues: iRocket = {
+                preset : "Default X",
+                startColor : colorStart,
+                endColor : colorEnd,
+                lifetime : lifetime,
+                particleSize : size,
+                particleRadius : radius,
+                spawnAmount: particleAmount,
+                ExplosionTimes : hierarchyMax      
         }
-        console.log(guiValues);
-        return null;
+
+        return iValues;
     }
-    */
+
+    export function loadCurrentSelectedPreset(): void {
+        let presetIndex: number = Number(new FormData(document.forms[0]).get("presetSelector"));
+        setCurrentValues(result.iRocket[presetIndex]);
+    }
+
+    function setCurrentValues(values: iRocket): void {
+        let html: HTMLButtonElement;
+        let htmlTarget: string;
+        
+        htmlTarget = "presetName";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.preset);
+
+        htmlTarget = "startColor";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.startColor);
+
+        htmlTarget = "endColor";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.endColor);
+
+        htmlTarget = "particleSize";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.particleSize);
+
+        htmlTarget = "particleRadius";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.particleRadius);
+
+        htmlTarget = "particleAmount";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.spawnAmount);
 
 
-    // TODO: Write save function;
-    // TODO: Load presets
-    // function setColor(): void {
-    //     let colorStart: HTMLInputElement = <HTMLInputElement>document.querySelector("#startColor");
-    //     startColor.value = colorStartDefault:
-    //     startColor.addEventListener("input", updateFirst, false);
-    //     startColor.addEventListener("change", updateAll, false);
-    //     startColor.select();
-    // }
+        htmlTarget = "ExplosionTimes";
+        html = <HTMLButtonElement>document.querySelector("input#" + htmlTarget);
 
-    // function updateFirst(): void {
-    //     let startColor: HTMLInputElement | null = document.querySelector("#startColor");
+        console.log(html.getAttribute("value") + " |  " + values.ExplosionTimes);
 
-    //     if (startColor) {
-    //         startColor.value = this.target.value;
-    //     }
-
-
+        html.setAttribute("value", "" + values.ExplosionTimes);
+    }
 }

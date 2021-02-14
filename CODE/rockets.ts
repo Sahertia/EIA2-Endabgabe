@@ -16,7 +16,7 @@ namespace Rocket_Jam {
         public colorStart: string;
         public colorEnd: string;
 
-        
+        public particleAmount: number;
 
         public colorCurrent: string;
 
@@ -28,7 +28,7 @@ namespace Rocket_Jam {
 
         public radius: number;
 
-        constructor(_position: Vector, _velocity: Vector, _yGravity: number, _lifetime: number, _size: number, _colorStart: string, _colorEnd: string, _hierachy: number, _hierarchyMax : number, _radius: number) {
+        constructor(_position: Vector, _velocity: Vector, _yGravity: number, _lifetime: number, _size: number, _colorStart: string, _colorEnd: string, _particleAmount: number,_hierachy: number, _hierarchyMax : number, _radius: number) {
             this.position = _position;
             this.velocity = _velocity;
             this.rotationValue = 0;
@@ -40,6 +40,7 @@ namespace Rocket_Jam {
             this.colorEnd = _colorEnd;
             this.shouldBeDestroyed = false;
             this.canBeOverwritten = false;
+            this.particleAmount = _particleAmount;
             this.hierarchy = _hierachy;
             this.hierarchyMax = _hierarchyMax;
             this.radius = _radius;
