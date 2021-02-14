@@ -30,7 +30,10 @@ export namespace Rocket_Jam {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
+        let rocketDB: Mongo.Db = mongoClient.db("rocketDB");
+        console.log(rocketDB);
         rocketjam = mongoClient.db("rocketDB").collection("rocketjam");
+        console.log(rocketjam);
         console.log("Database connection", rocketjam != undefined);
     }
 

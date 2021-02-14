@@ -23,7 +23,10 @@ var Rocket_Jam;
         let options = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
+        let rocketDB = mongoClient.db("rocketDB");
+        console.log(rocketDB);
         rocketjam = mongoClient.db("rocketDB").collection("rocketjam");
+        console.log(rocketjam);
         console.log("Database connection", rocketjam != undefined);
     }
     function handleRequest(_request, _response) {
