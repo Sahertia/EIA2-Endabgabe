@@ -9,7 +9,7 @@ export namespace Rocket_Jam {
     }
 
     let rocketjam: Mongo.Collection; // The server data structure
-    let databaseUrl: string = "mongodb+srv://Rocket_Jam:hZC7CVfFH0kKrpZe@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
+    let databaseUrl: string = "mongodb+srv://123456789:123456789abc@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
 
     let port: number | string | undefined = process.env.PORT;
     if (port == undefined)
@@ -30,7 +30,7 @@ export namespace Rocket_Jam {
         let options: Mongo.MongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
         let mongoClient: Mongo.MongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        rocketjam = mongoClient.db("Firework").collection("Rockets");
+        rocketjam = mongoClient.db("rocketDB").collection("rocketjam");
         console.log("Database connection", rocketjam != undefined);
     }
 

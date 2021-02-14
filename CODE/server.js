@@ -7,7 +7,7 @@ const Mongo = require("mongodb");
 var Rocket_Jam;
 (function (Rocket_Jam) {
     let rocketjam; // The server data structure
-    let databaseUrl = "mongodb+srv://Rocket_Jam:hZC7CVfFH0kKrpZe@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
+    let databaseUrl = "mongodb+srv://123456789:123456789abc@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
     let port = process.env.PORT;
     if (port == undefined)
         port = 5001;
@@ -23,7 +23,7 @@ var Rocket_Jam;
         let options = { useNewUrlParser: true, useUnifiedTopology: true }; //mit diesen options eine Verbindung zur DB aufbauen
         let mongoClient = new Mongo.MongoClient(_url, options);
         await mongoClient.connect();
-        rocketjam = mongoClient.db("Firework").collection("Rockets");
+        rocketjam = mongoClient.db("rocketDB").collection("rocketjam");
         console.log("Database connection", rocketjam != undefined);
     }
     function handleRequest(_request, _response) {
