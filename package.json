@@ -11,7 +11,7 @@
     "tslint": "^6.1.3"
   },
   "scripts": {
-    "start": "node relativer Pfad/ L00...js ...."
+    "start": "node relativer Pfad/ L00...js ....."
   },
   "author": "Rouven",
   "license": "ISC",
