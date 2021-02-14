@@ -16,6 +16,8 @@ namespace Rocket_Jam {
         public colorStart: string;
         public colorEnd: string;
 
+        
+
         public colorCurrent: string;
 
         public shouldBeDestroyed: boolean;
