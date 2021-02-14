@@ -35,6 +35,8 @@ var Rocket_Jam;
         _response.setHeader("Access-Control-Allow-Origin", "*");
         if (_request.url) {
             let url = Url.parse(_request.url, true); // der Url.parser wandelt den UrlWithParsedQuery in ein anders Format um. Durch true wird daraus ein besser lesbares assoziatives Array. 
+            console.log(url);
+            console.log(url.query);
             let command = url.query["command"];
             console.log("URL", _request.url);
             /*

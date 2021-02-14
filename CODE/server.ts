@@ -44,6 +44,8 @@ export namespace Rocket_Jam {
 
         if (_request.url) {
             let url: Url.UrlWithParsedQuery = Url.parse(_request.url, true); // der Url.parser wandelt den UrlWithParsedQuery in ein anders Format um. Durch true wird daraus ein besser lesbares assoziatives Array. 
+            console.log(url);
+            console.log(url.query);
             let command: string | string[] | undefined = url.query["command"];
             
             console.log("URL", _request.url);

@@ -1,4 +1,5 @@
 "use strict";
+// import { URLSearchParams } from "url";
 var Rocket_Jam;
 (function (Rocket_Jam) {
     let serverPage = "https://rocketjam.herokuapp.com/";
@@ -36,16 +37,8 @@ var Rocket_Jam;
         Rocket_Jam.ctx.stroke();
         setInterval(update, updateTimer, canvas);
         document?.querySelector("canvas")?.addEventListener("click", shootMouse);
-        /*
-        let response: Response = await fetch(serverPage + "?" + "command=getAllDatas");
-        let dataAsString: string = await response.text();
-        console.log(dataAsString);
-        result = JSON.parse(dataAsString);
-        */
-        // let response: Response = await fetch(serverPage + "?" + "command=getTitles");
-        // let listOfTitels: string = await response.text();
-        // let titelList: iRocket[] = JSON.parse(listOfTitels);
-        getDataFromServer();
+        await getDataFromServer();
+        console.log(Rocket_Jam.result);
         Rocket_Jam.generateContent(Rocket_Jam.result);
         let loadBtn = document.querySelector("button#loadBtn");
         loadBtn.addEventListener("click", Rocket_Jam.loadCurrentSelectedPreset);
@@ -58,8 +51,63 @@ var Rocket_Jam;
         let response = await fetch(serverPage + "?" + "command=getAllDatas");
         let responseContent = await response.text();
         let allDatas = JSON.parse(responseContent);
+        console.log(allDatas);
         // result = allDatas.find(item => item.rocketTitel === userValue);
-        Rocket_Jam.result = allDatas;
+        // result = <iData>allDatas;
+        // console.log(result);
+        Rocket_Jam.result = {
+            Rockets: [
+                {
+                    preset: "Default 1",
+                    startColor: "#dddddd",
+                    endColor: "#65431",
+                    lifetime: 0.4,
+                    particleSize: 1,
+                    particleRadius: 1,
+                    spawnAmount: 2,
+                    ExplosionTimes: 1
+                },
+                {
+                    preset: "Default 2",
+                    startColor: "#ffaaff",
+                    endColor: "#00ffaa",
+                    lifetime: 0.2,
+                    particleSize: 1,
+                    particleRadius: 3,
+                    spawnAmount: 3,
+                    ExplosionTimes: 2
+                },
+                {
+                    preset: "Default 3",
+                    startColor: "#123456",
+                    endColor: "#aaaaaa",
+                    lifetime: 0.3,
+                    particleSize: 1,
+                    particleRadius: 2,
+                    spawnAmount: 4,
+                    ExplosionTimes: 3
+                }
+            ]
+        };
+        for (let i = 0; i < allDatas.length; i++) {
+            let resultInterfaceTemp = allDatas[i]; //.find(item => item.rocketTitel === userValue);
+            // resultInterface.
+            console.log(allDatas);
+            console.log("TODO: Loading problem is here: cannot convert the data properly");
+            console.log(allDatas[i]);
+            let resultInterface = {
+                preset: resultInterfaceTemp.preset,
+                startColor: resultInterfaceTemp.startColor,
+                endColor: resultInterfaceTemp.endColor,
+                lifetime: resultInterfaceTemp.lifetime,
+                particleSize: resultInterfaceTemp.particleSize,
+                particleRadius: resultInterfaceTemp.particleRadius,
+                spawnAmount: resultInterfaceTemp.spawnAmount,
+                ExplosionTimes: resultInterfaceTemp.ExplosionTimes
+            };
+            // console.log(resultInterface);
+            Rocket_Jam.result.Rockets.push(resultInterface);
+        }
         console.log("Datein wurden geladen");
         console.log(Rocket_Jam.result);
     }
@@ -85,6 +133,7 @@ var Rocket_Jam;
                 // Can the rocket spawn sub particles?
                 console.log("pre-spawm");
                 if ((rocketParticles[i].hierarchy < rocketParticles[i].hierarchyMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
+                    console.log(rocketParticles[i].particleAmount);
                     for (let i = 0; i < rocketParticles[i].particleAmount; i++) {
                         trySpawnRocketParticle(rocketParticles[i], i);
                     }
@@ -142,17 +191,29 @@ var Rocket_Jam;
     }
     // Function which condensed the current values of the GUI into a rocket, and then saves that as a new one.
     async function sendDataToServer(_event) {
-        let rocketGUIData = Rocket_Jam.getCurrentValues();
-        let query = rocketGUIData.toString();
+        // let rocketGUIData: iRocket = getCurrentValues();
+        /*
+        console.log(rocketGUIData);
+        let query: string = rocketGUIData.toString();
+        let urlSearchParam: URLSearchParams = new URLSearchParams(<any>query);
+        console.log(query);
+
         // rocketTitel = textArea.value;
         // let presetName: string  = String(new FormData(document.forms[0]).get("presetName"));
         // let controlPanelData = new FormData(form);
         // let query = new URLSearchParams(controlPanelData);
         // query.append("rocketTitel", rocketTitel);
         // textArea.value = "";
-        let response = await fetch(serverPage + "?" + query);
+        */
+        let form = document.querySelector("form#userInterface");
+        let controlPanelData = new FormData(form);
+        let query = new URLSearchParams(controlPanelData);
+        console.log(query);
+        let response = await fetch(serverPage + "?" + query.toString());
         let responseText = await response.text();
+        alert("Deine Daten wurden gespeichert");
         console.log("Daten geschickt: ", responseText);
+        console.log(responseText);
     }
     ////// ------------------------------------------------------------------------
     // Is triggered on click, will try to create new rockets
@@ -171,17 +232,17 @@ var Rocket_Jam;
         if (!canvas)
             return;
         Rocket_Jam.ctx = canvas.getContext("2d");
-        let colorStart = String(new FormData(document.forms[0]).get("startColor"));
-        let colorEnd = String(new FormData(document.forms[0]).get("endColor"));
-        let lifetime = Number(new FormData(document.forms[0]).get("lifetime")); // stanadard  0.05 + 0.025
-        console.log(new FormData(document.forms[0]).get("lifetime"));
+        let colorStart = String(new FormData(document.forms[1]).get("startColor"));
+        let colorEnd = String(new FormData(document.forms[1]).get("endColor"));
+        let lifetime = Number(new FormData(document.forms[1]).get("lifetime")); // stanadard  0.05 + 0.025
+        console.log(new FormData(document.forms[1]).get("lifetime"));
         console.log(lifetime);
-        let radius = Number(new FormData(document.forms[0]).get("particleRadius"));
+        let radius = Number(new FormData(document.forms[1]).get("particleRadius"));
         console.log(radius);
-        let size = Number(new FormData(document.forms[0]).get("particleSize"));
-        let particleAmount = Number(new FormData(document.forms[0]).get("particleAmount"));
+        let size = Number(new FormData(document.forms[1]).get("particleSize"));
+        let particleAmount = Number(new FormData(document.forms[1]).get("spawnAmount"));
         console.log(size);
-        let hierarchyMax = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
+        let hierarchyMax = Number(new FormData(document.forms[1]).get("explosionTimes"));
         console.log(hierarchyMax);
         let spawnIndex = GetFreeRocketSlot();
         if (spawnIndex == -1 || canvas == null) {
@@ -192,7 +253,7 @@ var Rocket_Jam;
         // This should roughly go from the starting position to the mouse x position:
         // This should roughly be the formular to calculate the correct y velocity against the gravity. But it only works in the lower number areas.
         let vel = new Rocket_Jam.Vector((xMouse - pos.x) / updateTimer / 5 * 4, Math.sqrt((canvas.height - yMouse) / (gravity / 2) * updateTimer) * -3.15);
-        newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, 0, particleAmount, hierarchyMax, radius);
+        newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, particleAmount, 0, hierarchyMax, radius);
         rocketParticles[spawnIndex] = newRocket;
     }
     function trySpawnRocketParticle(rocketOriginal, index) {
@@ -208,7 +269,7 @@ var Rocket_Jam;
             //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
             let size = rocketParticles[index].size * 0.5; // TODO: get value from user input
             let radius = rocketParticles[index].radius * 0.8; // TODO: get value from user input
-            let particleAmount = rocketParticles[index].particleAmount / 2;
+            let particleAmount = rocketParticles[index].particleAmount;
             let newRocket;
             newRocket = new Rocket_Jam.RocketWithPhysics(position, velocity, gravity, lifetime, size, colorStart, colorEnd, particleAmount, rocketOriginal.hierarchy + 1, rocketOriginal.hierarchyMax, radius);
             newRocket.copyPosition(rocketParticles[index]);

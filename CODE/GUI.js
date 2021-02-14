@@ -4,15 +4,11 @@ var Rocket_Jam;
     // window.addEventListener("load", generateContent);
     // The GUI values, that are both spawning values for the rocket as well as saved classes for the server
     function generateContent(_data) {
+        console.log("category");
         for (let category in _data) {
+            console.log("category");
             let items = _data[category];
-            switch (category) {
-                case "Rockets":
-                    CreateOption(items);
-                    break;
-                default:
-                    break;
-            }
+            CreateOption(items);
         }
     }
     Rocket_Jam.generateContent = generateContent;
@@ -22,31 +18,32 @@ var Rocket_Jam;
         if (selector == null)
             return;
         console.log(selector);
+        console.log(_items);
         let selectValue = 0;
         for (let i = 0; i < _items.length; i++) {
             let option = document.createElement("option");
             option = document.createElement("option");
+            // option.value = option.textContent = "Preset " + i;
             option.setAttribute("name", "default");
             option.setAttribute("value", "" + selectValue);
-            option.value = option.textContent = "Preset " + i;
+            option.innerHTML = _items[i].preset; // TODO: is invalid for some reason
             selector.appendChild(option);
             selectValue++;
         }
     }
     // This function is used on clicking the save button
     function getCurrentValues() {
-        let colorStart = String(new FormData(document.forms[0]).get("startColor"));
-        let colorEnd = String(new FormData(document.forms[0]).get("endColor"));
-        let lifetime = Number(new FormData(document.forms[0]).get("particleAmount")); // stanadard  0.05 + 0.025
-        // console.log(new FormData(document.forms[0]).get("particleAmount"));
-        // console.log(lifetime);
-        let size = Number(new FormData(document.forms[0]).get("particleSize"));
-        let radius = Number(new FormData(document.forms[0]).get("particleRadius"));
-        let particleAmount = Number(new FormData(document.forms[0]).get("particleAmount"));
-        let hierarchyMax = Number(new FormData(document.forms[0]).get("ExplosionTimes"));
+        let presetName = String(new FormData(document.forms[1]).get("presetName"));
+        let colorStart = String(new FormData(document.forms[1]).get("startColor"));
+        let colorEnd = String(new FormData(document.forms[1]).get("endColor"));
+        let lifetime = Number(new FormData(document.forms[1]).get("lifetime")); // stanadard  0.05 + 0.025
+        let size = Number(new FormData(document.forms[1]).get("particleSize"));
+        let radius = Number(new FormData(document.forms[1]).get("particleRadius"));
+        let particleAmount = Number(new FormData(document.forms[1]).get("spawnAmount"));
+        let hierarchyMax = Number(new FormData(document.forms[1]).get("explosionTimes"));
         // Create a data object here for saving in the db
         let iValues = {
-            preset: "Default X",
+            preset: presetName,
             startColor: colorStart,
             endColor: colorEnd,
             lifetime: lifetime,
@@ -55,12 +52,24 @@ var Rocket_Jam;
             spawnAmount: particleAmount,
             ExplosionTimes: hierarchyMax
         };
+        console.log();
+        console.log(iValues);
         return iValues;
     }
     Rocket_Jam.getCurrentValues = getCurrentValues;
     function loadCurrentSelectedPreset() {
-        let presetIndex = Number(new FormData(document.forms[0]).get("presetSelector"));
-        setCurrentValues(Rocket_Jam.result.iRocket[presetIndex]);
+        let selectElem = document.getElementById('presetSelector');
+        if (selectElem == null)
+            return;
+        let selectElemnt = selectElem;
+        let presetIndex = selectElemnt.selectedIndex; // Number(new FormData(document.forms[0]).get("presetSelector"));
+        let _data = Rocket_Jam.result;
+        for (let category in _data) {
+            let items = _data[category];
+            console.log(items[presetIndex].preset);
+            setCurrentValues(items[presetIndex]);
+        }
+        // (result.iRocket[presetIndex]);
     }
     Rocket_Jam.loadCurrentSelectedPreset = loadCurrentSelectedPreset;
     function setCurrentValues(values) {
@@ -68,26 +77,43 @@ var Rocket_Jam;
         let htmlTarget;
         htmlTarget = "presetName";
         html = document.querySelector("input#" + htmlTarget);
+        console.log(values.preset);
         html.setAttribute("value", "" + values.preset);
+        html.value = values.preset;
         htmlTarget = "startColor";
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.startColor);
+        html.value = values.startColor;
         htmlTarget = "endColor";
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.endColor);
+        html.value = values.endColor;
         htmlTarget = "particleSize";
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.particleSize);
+        html.value = values.particleSize;
         htmlTarget = "particleRadius";
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.particleRadius);
-        htmlTarget = "particleAmount";
+        html.value = values.particleRadius;
+        htmlTarget = "spawnAmount";
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.spawnAmount);
+        html.value = values.spawnAmount;
+        /*
         htmlTarget = "ExplosionTimes";
-        html = document.querySelector("input#" + htmlTarget);
-        console.log(html.getAttribute("value") + " |  " + values.ExplosionTimes);
-        html.setAttribute("value", "" + values.ExplosionTimes);
+        html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
+        // html.setAttribute("value", "" + values.ExplosionTimes);
+        // html.value = values.ExplosionTimes;
+        let elements: HTMLInputElement[] = <HTMLInputElement>document.getElementsByName('ExplosionTimes');
+        elements.forEach(e => {
+            if (<number>e.value == values.ExplosionTimes) {
+                e.checked = true;
+            } else {
+                e.checked = false;
+            }
+        });
+        */
     }
 })(Rocket_Jam || (Rocket_Jam = {}));
 //# sourceMappingURL=GUI.js.map

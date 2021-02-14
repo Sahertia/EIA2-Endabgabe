@@ -30,6 +30,14 @@ html, body {
 	z-index: 2;
 }
 
+#selector {
+	left: 0;
+	position: fixed;
+	top: 0;
+  width: 300px;
+  background-color: rgb(66, 65, 65);
+	z-index: 2;
+}
 
 
 input {
