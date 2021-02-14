@@ -29,6 +29,10 @@ html, body {
   background-color: rgb(66, 65, 65);
 	z-index: 2;
 }
+
+#userInterface {
+  width: 100%;
+}
 input {
   width: auto;
 }
