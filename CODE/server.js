@@ -7,7 +7,7 @@ const Mongo = require("mongodb");
 var Rocket_Jam;
 (function (Rocket_Jam) {
     let rocketjam; // The server data structure
-    let databaseUrl = "mongodb+srv://Rocket_Jam:Rocket_Jam@cluster0.qwwrz.mongodb.net/Rocket_Jam?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
+    let databaseUrl = "mongodb+srv://Rocket_Jam:Firework@cluster0.qwwrz.mongodb.net/rocketDB?retryWrites=true&w=majority"; // "mongodb://localhost:27017";
     let port = process.env.PORT;
     if (port == undefined)
         port = 5001;
