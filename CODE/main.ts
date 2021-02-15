@@ -71,10 +71,10 @@ namespace Rocket_Jam {
                     startColor: "#e8e217",
                     endColor: "#fc3bb3",
                     lifetime: 0.4,
-                    particleSize: 1,
-                    particleRadius: 1,
-                    spawnAmount: 2,
-                    explosionTimes: 1
+                    particleSize: 0.2,
+                    particleRadius: 0.02,
+                    spawnAmount: 4,
+                    explosionTimes: 5
                 },
                 {
                     preset: "Happy 2021",
