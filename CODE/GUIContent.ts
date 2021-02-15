@@ -9,7 +9,7 @@ namespace Rocket_Jam {
         for (let category in _data) {
             console.log("category");
             let items: iRocket[] = _data[category];
-                CreateOption(items);
+            CreateOption(items);
         }
     }
 
@@ -23,7 +23,7 @@ namespace Rocket_Jam {
         console.log(_items);
 
         let selectValue: number = 0;
-        for(let i = 0; i < _items.length; i++) {
+        for (let i = 0; i < _items.length; i++) {
             let option: HTMLOptionElement = document.createElement("option");
             option = document.createElement("option");
             // option.value = option.textContent = "Preset " + i;
@@ -39,9 +39,9 @@ namespace Rocket_Jam {
 
     // This function is used on clicking the save button
     export function getCurrentValues(): iRocket {
-        let presetName: string  = String(new FormData(document.forms[1]).get("presetName"));
-        let colorStart: string  = String(new FormData(document.forms[1]).get("startColor"));
-        let colorEnd: string  = String(new FormData(document.forms[1]).get("endColor"));
+        let presetName: string = String(new FormData(document.forms[1]).get("presetName"));
+        let colorStart: string = String(new FormData(document.forms[1]).get("startColor"));
+        let colorEnd: string = String(new FormData(document.forms[1]).get("endColor"));
         let lifetime: number = Number(new FormData(document.forms[1]).get("lifetime")); // stanadard  0.05 + 0.025
         let size: number = Number(new FormData(document.forms[1]).get("particleSize"));
         let radius: number = Number(new FormData(document.forms[1]).get("particleRadius"));
@@ -50,44 +50,40 @@ namespace Rocket_Jam {
 
         // Create a data object here for saving in the db
         let iValues: iRocket = {
-                preset : presetName,
-                startColor : colorStart,
-                endColor : colorEnd,
-                lifetime : lifetime,
-                particleSize : size,
-                particleRadius : radius,
-                spawnAmount: particleAmount,
-                explosionTimes : hierarchyMax      
+            preset: presetName,
+            startColor: colorStart,
+            endColor: colorEnd,
+            lifetime: lifetime,
+            particleSize: size,
+            particleRadius: radius,
+            spawnAmount: particleAmount,
+            explosionTimes: hierarchyMax
         }
 
-        console.log()
         console.log(iValues);
-
         return iValues;
     }
 
     export function loadCurrentSelectedPreset(): void {
         let selectElem: HTMLElement | null = document.getElementById("presetSelector");
-        if(selectElem == null)
+        if (selectElem == null)
             return;
         let selectElemnt: HTMLSelectElement = <HTMLSelectElement>selectElem;
         let presetIndex: number = selectElemnt.selectedIndex; // Number(new FormData(document.forms[0]).get("presetSelector"));
 
         let _data: iData = result;
-        
+
         for (let category in _data) {
             let items: iRocket[] = _data[category];
             console.log(items[presetIndex].preset);
             setCurrentValues(items[presetIndex]);
         }
-
-        // (result.iRocket[presetIndex]);
     }
 
     function setCurrentValues(values: iRocket): void {
         let html: HTMLFormElement;
         let htmlTarget: string;
-        
+
         htmlTarget = "presetName";
         html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
         console.log(values.preset);
@@ -123,21 +119,5 @@ namespace Rocket_Jam {
         html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.explosionTimes);
         html.value = values.explosionTimes;
-
-
-        /*
-        htmlTarget = "ExplosionTimes";
-        html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
-        // html.setAttribute("value", "" + values.ExplosionTimes);
-        // html.value = values.ExplosionTimes;
-        let elements: HTMLInputElement[] = <HTMLInputElement>document.getElementsByName('ExplosionTimes');
-        elements.forEach(e => {
-            if (<number>e.value == values.ExplosionTimes) {
-                e.checked = true;
-            } else {
-                e.checked = false;
-            }
-        });
-        */
     }
 }

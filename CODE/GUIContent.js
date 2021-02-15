@@ -52,7 +52,6 @@ var Rocket_Jam;
             spawnAmount: particleAmount,
             explosionTimes: hierarchyMax
         };
-        console.log();
         console.log(iValues);
         return iValues;
     }
@@ -69,7 +68,6 @@ var Rocket_Jam;
             console.log(items[presetIndex].preset);
             setCurrentValues(items[presetIndex]);
         }
-        // (result.iRocket[presetIndex]);
     }
     Rocket_Jam.loadCurrentSelectedPreset = loadCurrentSelectedPreset;
     function setCurrentValues(values) {
@@ -104,20 +102,6 @@ var Rocket_Jam;
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.explosionTimes);
         html.value = values.explosionTimes;
-        /*
-        htmlTarget = "ExplosionTimes";
-        html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
-        // html.setAttribute("value", "" + values.ExplosionTimes);
-        // html.value = values.ExplosionTimes;
-        let elements: HTMLInputElement[] = <HTMLInputElement>document.getElementsByName('ExplosionTimes');
-        elements.forEach(e => {
-            if (<number>e.value == values.ExplosionTimes) {
-                e.checked = true;
-            } else {
-                e.checked = false;
-            }
-        });
-        */
     }
 })(Rocket_Jam || (Rocket_Jam = {}));
 //# sourceMappingURL=GUIContent.js.map
