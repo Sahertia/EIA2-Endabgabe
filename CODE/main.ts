@@ -37,7 +37,7 @@ namespace Rocket_Jam {
         rocketParticles.length = maxRockets;
         ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
         ctx.beginPath();
-        ctx.fillStyle = "#000000"; 
+        ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.stroke();
         setInterval(update, updateTimer, canvas);
@@ -68,8 +68,8 @@ namespace Rocket_Jam {
             Rockets: [
                 {
                     preset: "Let it Bang!",
-                    startColor: "#e8e217",
-                    endColor: "#fc3bb3",
+                    startColor: "#FFFF00",
+                    endColor: "#fe2c54",
                     lifetime: 0.4,
                     particleSize: 0.1,
                     particleRadius: 0.01,
@@ -219,8 +219,8 @@ namespace Rocket_Jam {
         console.log(query);
         let response: Response = await fetch(serverPage + "?" + query.toString());
         let responseText: string = await response.text();
-        alert("Deine Daten wurden gespeichert");
-        console.log("Daten geschickt: ", responseText);
+        alert("CAUTION! Rocket loaded!");
+        console.log("Data has been send", responseText);
         console.log(responseText);
     }
 

@@ -16,7 +16,7 @@ namespace Rocket_Jam {
         public shouldBeDestroyed: boolean;
         public canBeOverwritten: boolean;
         public hierarchy: number;
-        public hierarchyMax: number; // The max number of subsequent explosions
+        public hierarchyMax: number;
         public radius: number;
 
         constructor(_position: Vector, _velocity: Vector, _yGravity: number, _lifetime: number, _size: number, _colorStart: string, _colorEnd: string, _particleAmount: number,_hierachy: number, _hierarchyMax : number, _radius: number) {

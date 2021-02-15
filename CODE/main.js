@@ -53,13 +53,13 @@ var Rocket_Jam;
             Rockets: [
                 {
                     preset: "Let it Bang!",
-                    startColor: "#e8e217",
-                    endColor: "#fc3bb3",
+                    startColor: "#FFFF00",
+                    endColor: "#fe2c54",
                     lifetime: 0.4,
-                    particleSize: 1,
-                    particleRadius: 1,
-                    spawnAmount: 2,
-                    explosionTimes: 1
+                    particleSize: 0.1,
+                    particleRadius: 0.01,
+                    spawnAmount: 4,
+                    explosionTimes: 5
                 },
                 {
                     preset: "Happy 2021",
@@ -191,8 +191,8 @@ var Rocket_Jam;
         console.log(query);
         let response = await fetch(serverPage + "?" + query.toString());
         let responseText = await response.text();
-        alert("Deine Daten wurden gespeichert");
-        console.log("Daten geschickt: ", responseText);
+        alert("CAUTION! Rocket loaded!");
+        console.log("Data has been send", responseText);
         console.log(responseText);
     }
     function spawnSomeRockets() {

@@ -58,7 +58,7 @@ var Rocket_Jam;
     }
     Rocket_Jam.getCurrentValues = getCurrentValues;
     function loadCurrentSelectedPreset() {
-        let selectElem = document.getElementById('presetSelector');
+        let selectElem = document.getElementById("presetSelector");
         if (selectElem == null)
             return;
         let selectElemnt = selectElem;
@@ -100,6 +100,10 @@ var Rocket_Jam;
         html = document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.spawnAmount);
         html.value = values.spawnAmount;
+        htmlTarget = "explosionTimes";
+        html = document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.explosionTimes);
+        html.value = values.explosionTimes;
         /*
         htmlTarget = "ExplosionTimes";
         html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
@@ -116,4 +120,4 @@ var Rocket_Jam;
         */
     }
 })(Rocket_Jam || (Rocket_Jam = {}));
-//# sourceMappingURL=GUI.js.map
+//# sourceMappingURL=GUIContent.js.map

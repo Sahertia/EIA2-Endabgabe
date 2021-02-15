@@ -1,9 +1,5 @@
 namespace Rocket_Jam {
-
-    export interface iData {
-        [category: string]: iRocket[];
-    }
-
+ 
     export interface iRocket {
         preset: string;
         startColor: string;
@@ -14,6 +10,12 @@ namespace Rocket_Jam {
         spawnAmount: number;
         explosionTimes: number;
     }
+      
+   
+    export interface iData {
+        [category: string]: iRocket[];
+    }
+
 
     export let data: iData = {
         Rockets: [

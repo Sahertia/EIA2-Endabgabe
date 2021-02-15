@@ -67,7 +67,7 @@ namespace Rocket_Jam {
     }
 
     export function loadCurrentSelectedPreset(): void {
-        let selectElem: HTMLElement | null = document.getElementById('presetSelector');
+        let selectElem: HTMLElement | null = document.getElementById("presetSelector");
         if(selectElem == null)
             return;
         let selectElemnt: HTMLSelectElement = <HTMLSelectElement>selectElem;
@@ -118,6 +118,12 @@ namespace Rocket_Jam {
         html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
         html.setAttribute("value", "" + values.spawnAmount);
         html.value = values.spawnAmount;
+
+        htmlTarget = "explosionTimes";
+        html = <HTMLFormElement>document.querySelector("input#" + htmlTarget);
+        html.setAttribute("value", "" + values.explosionTimes);
+        html.value = values.explosionTimes;
+
 
         /*
         htmlTarget = "ExplosionTimes";

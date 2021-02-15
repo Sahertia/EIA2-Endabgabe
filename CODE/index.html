@@ -5,12 +5,13 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <title>Canvas</title>
+    <title>Rocket Jam</title>
     <script src="Vector.js"></script>
-    <script src="GUI.js"></script>
     <script src="rockets.js"></script>
-    <script src="main.js"></script>
+    <script src="GUIContent.js"></script>
     <script src="data.js"></script>
+    <script src="main.js"></script>
+
     <!-- <script src="server.js"></script> -->
 
 
@@ -59,7 +60,8 @@
             </fieldset>
             <!--lifetime of rockets includes speed-->
             <fieldset>
-                <input type="range" name="particleRadius" id="particleRadius" min="0.01" max="4" step="0.02" value="0.04">
+                <input type="range" name="particleRadius" id="particleRadius" min="0.01" max="4" step="0.02"
+                    value="0.04">
                 <label for="particleRadius">Particle radius</label>
             </fieldset>
 
@@ -68,6 +70,11 @@
                 <label for="spawnAmount">Particle amount</label>
             </fieldset>
 
+            <fieldset>
+                <input type="range" name="explosionTimes" id="explosionTimes" min="1" max="5" step="1" value="2">
+                <label for="explosionTimes">Explosions</label>
+            </fieldset>
+            <!--
             <fieldset>
                 <legend>Explosions</legend>
                 <input type="radio" name="explosionTimes" class="hierachy" value="1" checked id="explosionTimes" />
@@ -81,7 +88,7 @@
                 <input type="radio" name="explosionTimes" class="hierachy" value="5" />
                 <label for="five">5</label>
             </fieldset>
-
+            -->
         </form>
     </div>
 
