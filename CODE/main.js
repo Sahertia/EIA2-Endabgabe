@@ -1,11 +1,10 @@
 "use strict";
-// import { URLSearchParams } from "url";
 var Rocket_Jam;
 (function (Rocket_Jam) {
     let serverPage = "https://rocketjam.herokuapp.com/";
     let canvas;
     let rocketParticles = []; // TODO
-    let maxRockets = 5000;
+    let maxRockets = 2500;
     let rocketsSpawn = 1;
     let updateTimer = 20;
     let xMouse;
@@ -23,7 +22,6 @@ var Rocket_Jam;
     }
     async function handleLoad() {
         canvas = document.querySelector("canvas");
-        // let GUI: HTMLDivElement | null = document.querySelector("GUI");
         if (!canvas)
             return;
         canvas.width = screen.width;
@@ -32,7 +30,7 @@ var Rocket_Jam;
         rocketParticles.length = maxRockets;
         Rocket_Jam.ctx = canvas.getContext("2d");
         Rocket_Jam.ctx.beginPath();
-        Rocket_Jam.ctx.fillStyle = "#000000"; // TODO: Check if opacity 
+        Rocket_Jam.ctx.fillStyle = "#000000";
         Rocket_Jam.ctx.fillRect(0, 0, Rocket_Jam.ctx.canvas.width, Rocket_Jam.ctx.canvas.height);
         Rocket_Jam.ctx.stroke();
         setInterval(update, updateTimer, canvas);
@@ -45,47 +43,43 @@ var Rocket_Jam;
         let saveBtn = document.querySelector("button#saveBtn");
         saveBtn.addEventListener("click", sendDataToServer);
     }
-    // Function which loads all the rockets from the server into the main
     // Called only at start
     async function getDataFromServer() {
         let response = await fetch(serverPage + "?" + "command=getAllDatas");
         let responseContent = await response.text();
         let allDatas = JSON.parse(responseContent);
         console.log(allDatas);
-        // result = allDatas.find(item => item.rocketTitel === userValue);
-        // result = <iData>allDatas;
-        // console.log(result);
         Rocket_Jam.result = {
             Rockets: [
                 {
-                    preset: "Default 1",
-                    startColor: "#dddddd",
-                    endColor: "#65431",
+                    preset: "Let it Bang!",
+                    startColor: "#e8e217",
+                    endColor: "#fc3bb3",
                     lifetime: 0.4,
                     particleSize: 1,
                     particleRadius: 1,
                     spawnAmount: 2,
-                    ExplosionTimes: 1
+                    explosionTimes: 1
                 },
                 {
-                    preset: "Default 2",
-                    startColor: "#ffaaff",
+                    preset: "Happy 2021",
+                    startColor: "#e8e217",
                     endColor: "#00ffaa",
                     lifetime: 0.2,
                     particleSize: 1,
-                    particleRadius: 3,
+                    particleRadius: 2,
                     spawnAmount: 3,
-                    ExplosionTimes: 2
+                    explosionTimes: 2
                 },
                 {
-                    preset: "Default 3",
-                    startColor: "#123456",
+                    preset: "BIG BANG!",
+                    startColor: "#fc3bb3",
                     endColor: "#aaaaaa",
-                    lifetime: 0.3,
-                    particleSize: 1,
-                    particleRadius: 2,
+                    lifetime: 0.1,
+                    particleSize: 4,
+                    particleRadius: 4,
                     spawnAmount: 4,
-                    ExplosionTimes: 3
+                    explosionTimes: 4
                 }
             ]
         };
@@ -96,14 +90,14 @@ var Rocket_Jam;
             console.log("TODO: Loading problem is here: cannot convert the data properly");
             console.log(allDatas[i]);
             let resultInterface = {
-                preset: resultInterfaceTemp.preset,
+                preset: "" + resultInterfaceTemp.preset,
                 startColor: resultInterfaceTemp.startColor,
                 endColor: resultInterfaceTemp.endColor,
                 lifetime: resultInterfaceTemp.lifetime,
                 particleSize: resultInterfaceTemp.particleSize,
                 particleRadius: resultInterfaceTemp.particleRadius,
                 spawnAmount: resultInterfaceTemp.spawnAmount,
-                ExplosionTimes: resultInterfaceTemp.ExplosionTimes
+                explosionTimes: resultInterfaceTemp.explosionTimes
             };
             // console.log(resultInterface);
             Rocket_Jam.result.Rockets.push(resultInterface);
@@ -191,23 +185,9 @@ var Rocket_Jam;
     }
     // Function which condensed the current values of the GUI into a rocket, and then saves that as a new one.
     async function sendDataToServer(_event) {
-        // let rocketGUIData: iRocket = getCurrentValues();
-        /*
-        console.log(rocketGUIData);
-        let query: string = rocketGUIData.toString();
-        let urlSearchParam: URLSearchParams = new URLSearchParams(<any>query);
-        console.log(query);
-
-        // rocketTitel = textArea.value;
-        // let presetName: string  = String(new FormData(document.forms[0]).get("presetName"));
-        // let controlPanelData = new FormData(form);
-        // let query = new URLSearchParams(controlPanelData);
-        // query.append("rocketTitel", rocketTitel);
-        // textArea.value = "";
-        */
         let form = document.querySelector("form#userInterface");
-        let controlPanelData = new FormData(form);
-        let query = new URLSearchParams(controlPanelData);
+        let interfaceData = new FormData(form);
+        let query = new URLSearchParams(interfaceData);
         console.log(query);
         let response = await fetch(serverPage + "?" + query.toString());
         let responseText = await response.text();
@@ -215,14 +195,10 @@ var Rocket_Jam;
         console.log("Daten geschickt: ", responseText);
         console.log(responseText);
     }
-    ////// ------------------------------------------------------------------------
-    // Is triggered on click, will try to create new rockets
     function spawnSomeRockets() {
         // On start, spawn 5 rockets randomly
         for (let i = 0; i < rocketsSpawn; i++) {
             trySpawnRocketNew();
-            // console.log(rocketParticles[i].size);
-            // console.log(rocketParticles[i].xPosition);
         }
     }
     Rocket_Jam.spawnSomeRockets = spawnSomeRockets;
@@ -250,8 +226,6 @@ var Rocket_Jam;
         }
         let newRocket;
         let pos = new Rocket_Jam.Vector(canvas.width / 2, canvas.height);
-        // This should roughly go from the starting position to the mouse x position:
-        // This should roughly be the formular to calculate the correct y velocity against the gravity. But it only works in the lower number areas.
         let vel = new Rocket_Jam.Vector((xMouse - pos.x) / updateTimer / 5 * 4, Math.sqrt((canvas.height - yMouse) / (gravity / 2) * updateTimer) * -3.15);
         newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, particleAmount, 0, hierarchyMax, radius);
         rocketParticles[spawnIndex] = newRocket;
@@ -260,15 +234,13 @@ var Rocket_Jam;
         let spawnIndex = GetFreeRocketSlot();
         if (spawnIndex != -1) {
             console.log("spawn");
-            let lifetime = (Math.random() * 0.01 + (rocketOriginal.lifetimeMax * 0.6)); // TODO: get value for this from user input
+            let lifetime = (Math.random() * 0.01 + (rocketOriginal.lifetimeMax * 0.6));
             let position = new Rocket_Jam.Vector(0, 0);
             let velocity = new Rocket_Jam.Vector(0, 0);
             let colorStart = rocketOriginal.colorStart; // TODO: change to cascade from main rocket
-            // let colorStart: string = (document.getElementById("startColor") as HTMLInputElement).value;
             let colorEnd = rocketOriginal.colorEnd;
-            //let colorEnd: string = (document.getElementById("endColor") as HTMLInputElement).value;
-            let size = rocketParticles[index].size * 0.5; // TODO: get value from user input
-            let radius = rocketParticles[index].radius * 0.8; // TODO: get value from user input
+            let size = rocketParticles[index].size * 0.5;
+            let radius = rocketParticles[index].radius * 0.8;
             let particleAmount = rocketParticles[index].particleAmount;
             let newRocket;
             newRocket = new Rocket_Jam.RocketWithPhysics(position, velocity, gravity, lifetime, size, colorStart, colorEnd, particleAmount, rocketOriginal.hierarchy + 1, rocketOriginal.hierarchyMax, radius);

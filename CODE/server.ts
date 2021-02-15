@@ -64,7 +64,7 @@ export namespace Rocket_Jam {
             }
             else {
                 storeRocket(url.query, _response);
-                console.log("Daten gespeichert");
+                console.log("Daten saved");
             }
             return;
         }

@@ -50,7 +50,7 @@ var Rocket_Jam;
             particleSize: size,
             particleRadius: radius,
             spawnAmount: particleAmount,
-            ExplosionTimes: hierarchyMax
+            explosionTimes: hierarchyMax
         };
         console.log();
         console.log(iValues);
