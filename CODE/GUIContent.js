@@ -8,12 +8,12 @@ var Rocket_Jam;
         for (let category in _data) {
             console.log("category");
             let items = _data[category];
-            CreateOption(items);
+            createOption(items);
         }
     }
     Rocket_Jam.generateContent = generateContent;
     // Create a option in the selector for every saved rocket preset
-    function CreateOption(_items) {
+    function createOption(_items) {
         let selector = document.querySelector("select#presetSelector");
         if (selector == null)
             return;

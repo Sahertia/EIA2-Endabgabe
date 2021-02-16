@@ -58,7 +58,7 @@ export namespace Rocket_Jam {
             }
             */
             if (command === "getAllDatas") {
-                getAllDatas(_request, _response);
+                getAllData(_request, _response);
                 console.log("Alle Data-Objekte geholt");
                 return;
             }
@@ -87,7 +87,7 @@ export namespace Rocket_Jam {
     */
 
     // THis function is called to get the currently saved rockets in the DB
-    async function getAllDatas(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
+    async function getAllData(_request: Http.IncomingMessage, _response: Http.ServerResponse): Promise<void> {
         let result: Mongo.Cursor<any> = rocketjam.find();
       
         let arrayResult: string[] = await result.toArray();

@@ -3,7 +3,7 @@ var Rocket_Jam;
 (function (Rocket_Jam) {
     let serverPage = "https://rocketjam.herokuapp.com/";
     let canvas;
-    let rocketParticles = []; // TODO
+    let rocketParticles = [];
     let maxRockets = 2500;
     let rocketsSpawn = 1;
     let updateTimer = 20;
@@ -105,20 +105,16 @@ var Rocket_Jam;
         console.log("Datein wurden geladen");
         console.log(Rocket_Jam.result);
     }
-    // This big method is called every frame (hopefully). 
     // It checks which rockets needs to be rendered onto the canvas and which rockets are gone and produce sub-particles.
     function update() {
         let canvas = document.querySelector("canvas");
         if (!canvas)
             return;
         Rocket_Jam.ctx = canvas.getContext("2d");
-        // console.log("update");
-        // ctx.putImageData(saveBackground, 0, 0); // TODO: Understand this line
         Rocket_Jam.ctx.beginPath();
         Rocket_Jam.ctx.fillStyle = "#00000011"; // TODO: Check if opacity 
         Rocket_Jam.ctx.fillRect(0, 0, Rocket_Jam.ctx.canvas.width, Rocket_Jam.ctx.canvas.height);
         Rocket_Jam.ctx.stroke();
-        // TODO: Implement physics for all rockets
         for (let i = 0; i < maxRockets; i++) {
             if (rocketParticles[i] == null) {
                 continue;
@@ -129,7 +125,7 @@ var Rocket_Jam;
                 if ((rocketParticles[i].hierarchy < rocketParticles[i].hierarchyMax) && rocketParticles[i].canBeOverwritten == false) { // TODO: let each rocket know how many hierarchies it has
                     console.log(rocketParticles[i].particleAmount);
                     for (let i = 0; i < rocketParticles[i].particleAmount; i++) {
-                        trySpawnRocketParticle(rocketParticles[i], i);
+                        launchParticles(rocketParticles[i], i);
                     }
                 }
                 if (rocketParticles[i].canBeOverwritten != true) {
@@ -142,10 +138,6 @@ var Rocket_Jam;
                     else {
                         Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorEnd; // TODO: Check if opacity 
                     }
-                    // ctx.fillRect(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 50 * rocketParticles[i].size, 200 * rocketParticles[i].size);
-                    // let rotationValue: number = Math.sin(this.xVelocity / this.yVelocity);
-                    // ctx.rotate(rotationValue + 3.1415 / 2);
-                    Rocket_Jam.ctx.fill();
                     Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorCurrent;
                     Rocket_Jam.ctx.closePath();
                     Rocket_Jam.ctx.stroke();
@@ -158,10 +150,6 @@ var Rocket_Jam;
             }
             else {
                 rocketParticles[i].calculateNewValue(updateTimer, canvas.width, canvas.height);
-                //  console.log(rocketParticles[i].yVelocity);
-                Rocket_Jam.ctx.save();
-                Rocket_Jam.ctx.beginPath();
-                // console.log(rocketParticles[i].lifetime);
                 if (rocketParticles[i].hierarchy == 0) {
                     Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
                     // console.log(1);
@@ -171,9 +159,6 @@ var Rocket_Jam;
                     // console.log(2);
                 }
                 Rocket_Jam.ctx.arc(rocketParticles[i].position.x, rocketParticles[i].position.y, 50 * rocketParticles[i].size, 0, 2 * Math.PI, false);
-                // ctx.fillRect(rocketParticles[i].xPosition, rocketParticles[i].yPosition, 50 * rocketParticles[i].size, 200 * rocketParticles[i].size);
-                // let rotationValue: number = Math.sin(this.xVelocity / this.yVelocity);
-                // ctx.rotate(rotationValue + 3.1415 / 2);
                 Rocket_Jam.ctx.fill();
                 Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorCurrent;
                 Rocket_Jam.ctx.strokeStyle = "rgba (1, 1, 1, 0)";
@@ -196,14 +181,13 @@ var Rocket_Jam;
         console.log(responseText);
     }
     function spawnSomeRockets() {
-        // On start, spawn 5 rockets randomly
         for (let i = 0; i < rocketsSpawn; i++) {
-            trySpawnRocketNew();
+            launchNewRocket();
         }
     }
     Rocket_Jam.spawnSomeRockets = spawnSomeRockets;
     // launch a new rocket
-    function trySpawnRocketNew() {
+    function launchNewRocket() {
         let canvas = document.querySelector("canvas");
         if (!canvas)
             return;
@@ -230,7 +214,7 @@ var Rocket_Jam;
         newRocket = new Rocket_Jam.RocketWithPhysics(pos, vel, gravity, lifetime, size, colorStart, colorEnd, particleAmount, 0, hierarchyMax, radius);
         rocketParticles[spawnIndex] = newRocket;
     }
-    function trySpawnRocketParticle(rocketOriginal, index) {
+    function launchParticles(rocketOriginal, index) {
         let spawnIndex = GetFreeRocketSlot();
         if (spawnIndex != -1) {
             console.log("spawn");

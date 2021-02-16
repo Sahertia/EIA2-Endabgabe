@@ -9,12 +9,12 @@ namespace Rocket_Jam {
         for (let category in _data) {
             console.log("category");
             let items: iRocket[] = _data[category];
-            CreateOption(items);
+            createOption(items);
         }
     }
 
     // Create a option in the selector for every saved rocket preset
-    function CreateOption(_items: iRocket[]): void {
+    function createOption(_items: iRocket[]): void {
         let selector: HTMLSelectElement | null = document.querySelector("select#presetSelector");
         if (selector == null)
             return;

@@ -47,7 +47,7 @@ var Rocket_Jam;
             }
             */
             if (command === "getAllDatas") {
-                getAllDatas(_request, _response);
+                getAllData(_request, _response);
                 console.log("Alle Data-Objekte geholt");
                 return;
             }
@@ -72,7 +72,7 @@ var Rocket_Jam;
     }
     */
     // THis function is called to get the currently saved rockets in the DB
-    async function getAllDatas(_request, _response) {
+    async function getAllData(_request, _response) {
         let result = rocketjam.find();
         let arrayResult = await result.toArray();
         let jsonResult = JSON.stringify(arrayResult);
