@@ -111,6 +111,8 @@ var Rocket_Jam;
         if (!canvas)
             return;
         Rocket_Jam.ctx = canvas.getContext("2d");
+        // console.log("update");
+        // ctx.putImageData(saveBackground, 0, 0)
         Rocket_Jam.ctx.beginPath();
         Rocket_Jam.ctx.fillStyle = "#00000011"; // TODO: Check if opacity 
         Rocket_Jam.ctx.fillRect(0, 0, Rocket_Jam.ctx.canvas.width, Rocket_Jam.ctx.canvas.height);
@@ -138,6 +140,7 @@ var Rocket_Jam;
                     else {
                         Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorEnd; // TODO: Check if opacity 
                     }
+                    Rocket_Jam.ctx.fill();
                     Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorCurrent;
                     Rocket_Jam.ctx.closePath();
                     Rocket_Jam.ctx.stroke();
@@ -150,6 +153,8 @@ var Rocket_Jam;
             }
             else {
                 rocketParticles[i].calculateNewValue(updateTimer, canvas.width, canvas.height);
+                Rocket_Jam.ctx.save();
+                Rocket_Jam.ctx.beginPath();
                 if (rocketParticles[i].hierarchy == 0) {
                     Rocket_Jam.ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
                     // console.log(1);

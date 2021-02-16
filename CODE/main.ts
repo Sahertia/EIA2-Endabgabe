@@ -131,6 +131,8 @@ namespace Rocket_Jam {
             return;
         ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
 
+        // console.log("update");
+        // ctx.putImageData(saveBackground, 0, 0)
         ctx.beginPath();
         ctx.fillStyle = "#00000011"; // TODO: Check if opacity 
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -161,6 +163,7 @@ namespace Rocket_Jam {
                         ctx.fillStyle = rocketParticles[i].colorEnd; // TODO: Check if opacity 
                     }
 
+                    ctx.fill();
                     ctx.fillStyle = rocketParticles[i].colorCurrent;
                     ctx.closePath();
                     ctx.stroke();
@@ -175,7 +178,9 @@ namespace Rocket_Jam {
             } else {
                 rocketParticles[i].calculateNewValue(updateTimer, canvas.width, canvas.height);
 
-
+                ctx.save();
+                ctx.beginPath();
+                
                 if (rocketParticles[i].hierarchy == 0) {
                     ctx.fillStyle = rocketParticles[i].colorStart; // TODO: Check if opacity 
                     // console.log(1);
